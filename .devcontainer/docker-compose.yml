@@ -1,0 +1,10 @@
+version: "3.7"
+services:
+  katenary:
+    image: aristidetm/katenary:latest
+    command: sleep infinity
+    environment:
+      - SHELL=/bin/bash
+    volumes:
+      - ..:/workspace:cached
+    working_dir: /workspace/charts
