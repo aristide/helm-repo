@@ -1,0 +1,18 @@
+apiVersion: v1
+appVersion: RELEASE.2024-06-04T19-20-08Z
+description: High Performance Object Storage
+home: https://min.io
+icon: https://min.io/resources/img/logo/MINIO_wordmark.png
+keywords:
+- minio
+- storage
+- object-storage
+- s3
+- cluster
+maintainers:
+- email: mendoo.aristide@gmail.com
+  name: Aristide
+name: minio
+sources:
+- https://github.com/aristide/helm-repo/tree/main/charts/minio
+version: 5.2.0
