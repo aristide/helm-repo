@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: '{{ .Release.Name }}-active-directory'
+  labels:
+    katenary.io/component: active-directory
+    katenary.io/project: '{{ .Chart.Name }}'
+    katenary.io/release: '{{ .Release.Name }}'
+  annotations:
+    katenary.io/docker-compose-sha1: 025e91e17029d80290ac060df710f901b49c55cb
+    katenary.io/version: 2.0.0-beta2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      katenary.io/component: active-directory
+      katenary.io/release: '{{ .Release.Name }}'
+  template:
+    metadata:
+      labels:
+        katenary.io/component: active-directory
+        katenary.io/release: '{{ .Release.Name }}'
+    spec:
+      containers:
+        - name: active-directory
+          image: '{{ .Values.repository.image }}{{ if ne .Values.repository.tag "" }}:{{ .Values.repository.tag }}{{ end }}'
+          ports:
+            - name: active-directory
+              containerPort: 10389
+          volumeMounts:
+            - mountPath: /ldap/users.ldif
+              name: '{{ .Release.Name }}-configs'
+              subPath: users.ldif
+      volumes:
+        - configMap:
+            items:
+              - key: users.ldif
+                path: users.ldif
+            name: '{{ .Release.Name }}-configs'
+          name: '{{ .Release.Name }}-configs'
+

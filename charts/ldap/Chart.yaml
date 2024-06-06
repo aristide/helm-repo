@@ -1,0 +1,16 @@
+apiVersion: v2
+appVersion: 0.0.1
+description: A helm chart for ldap 
+icon: https://img.icons8.com/pulsar-color/96/active-directory.png
+name: ldap
+type: application
+version: 0.1.0
+keywords:
+- ldap
+- authentication
+- cluster
+- active-directory
+maintainers:
+- email: mendoo.aristide@gmail.com
+  name: Aristide
+home: https://github.com/dwimberger/ldap-ad-it

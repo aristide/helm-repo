@@ -1,0 +1,47 @@
+apiVersion: v1
+entries:
+  ldap:
+  - apiVersion: v2
+    appVersion: 0.0.1
+    created: "2024-06-06T13:41:45.0830136Z"
+    description: A helm chart for ldap
+    digest: 9be2e23a32492299c515b7851a6cfc1244f441348355ee7491922b47e5df0d8e
+    home: https://github.com/dwimberger/ldap-ad-it
+    icon: https://img.icons8.com/pulsar-color/96/active-directory.png
+    keywords:
+    - ldap
+    - authentication
+    - cluster
+    - active-directory
+    maintainers:
+    - email: mendoo.aristide@gmail.com
+      name: Aristide
+    name: ldap
+    type: application
+    urls:
+    - https://aristide.github.io/helm-repo/stable/ldap-0.1.0.tgz
+    version: 0.1.0
+  minio:
+  - apiVersion: v1
+    appVersion: RELEASE.2024-06-04T19-20-08Z
+    created: "2024-06-06T10:08:04.0794799Z"
+    description: High Performance Object Storage
+    digest: ef22e329c9d58cb6fb6497ed7b2c289c0432392136a1df88d138e6cc94c0a75a
+    home: https://min.io
+    icon: https://min.io/resources/img/logo/MINIO_wordmark.png
+    keywords:
+    - minio
+    - storage
+    - object-storage
+    - s3
+    - cluster
+    maintainers:
+    - email: mendoo.aristide@gmail.com
+      name: Aristide
+    name: minio
+    sources:
+    - https://github.com/aristide/helm-repo/tree/main/charts/minio
+    urls:
+    - https://aristide.github.io/helm-repo/stable/minio-5.2.0.tgz
+    version: 5.2.0
+generated: "2024-06-06T13:41:45.070098Z"
