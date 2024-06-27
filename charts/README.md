@@ -18,4 +18,3 @@ Move inside the chart folder  and run the following commande line
 -`helm package .`
 ### Merge the chart into the index.yaml
 -`helm repo index --url https://aristide.github.io/helm-repo/stable/ --merge ../index.yaml .` 
-```

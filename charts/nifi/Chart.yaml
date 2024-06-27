@@ -1,5 +1,5 @@
 apiVersion: v2
-appVersion: 1.23.2
+appVersion: 1.26.0
 dependencies:
 - condition: zookeeper.enabled
   name: zookeeper
@@ -31,4 +31,4 @@ maintainers:
   name: Aristide
   url: https://github.com/aristide
 name: nifi
-version: 1.0.1
+version: 1.0.0

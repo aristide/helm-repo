@@ -3,3 +3,7 @@
 
 docker-compose*
 !.devcontainer/docker-compose.yml
+*.lock
+
+index.yaml
+!*/*/index.yaml
