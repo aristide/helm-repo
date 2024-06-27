@@ -1,6 +1,7 @@
 ---
 # Number of nifi nodes
-replicaCount: 1
+# <- change me and increase replicat count to set nifi in cluster mode ->
+replicaCount: 2
 
 ## Set default image, imageTag, and imagePullPolicy.
 ## ref: https://hub.docker.com/r/apache/nifi/
@@ -435,6 +436,7 @@ certManager:
 # Zookeeper:
 # ------------------------------------------------------------------------------
 zookeeper:
+  # <- change me and enable set nifi in cluster mode ->
   ## If true, install the Zookeeper chart
   ## ref: https://github.com/bitnami/charts/blob/master/bitnami/zookeeper/values.yaml
   enabled: true
@@ -449,7 +451,7 @@ zookeeper:
 # <- change me to enable registry ->
 registry:
   ## If true, install the Nifi registry
-  enabled: false
+  enabled: true
   url: ""
   port: 80
   ## Add values for the nifi-registry here
