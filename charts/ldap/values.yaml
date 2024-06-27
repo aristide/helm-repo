@@ -2,6 +2,7 @@ repository:
   image: dwimberger/ldap-ad-it
   tag: ""
 
+# check the following link: https://nifi.apache.org/docs/nifi-docs/html/administration-guide.html#ldap-based-usersgroups-referencing-user-dn
 ldapConfig: |-
     #########################################################
     # MICROSOFT SCHEMA for sAMAccountName and memberOf
@@ -68,8 +69,8 @@ ldapConfig: |-
     ######################
     # Custom Domain
     ######################
-    dn: dc=ansd,dc=sn
-    dc: ansd
+    dn: dc=data4now,dc=org
+    dc: data4now
     objectClass: top
     objectClass: domain
 
@@ -77,12 +78,12 @@ ldapConfig: |-
     # roles
     ######################
 
-    dn: ou=users,dc=ansd,dc=sn
+    dn: ou=users,dc=data4now,dc=org
     objectClass: organizationalUnit
     objectClass: top
     ou: users
 
-    dn: ou=roles,dc=ansd,dc=sn
+    dn: ou=roles,dc=data4now,dc=org
     objectclass: top
     objectclass: organizationalUnit
     ou: roles
@@ -91,20 +92,19 @@ ldapConfig: |-
     # Users
     ######################
 
-    dn: uid=admin,ou=users,dc=ansd,dc=sn
+    dn: cn=Administrator,ou=users,dc=data4now,dc=org
     objectClass: top
     objectClass: person
     objectClass: inetOrgPerson
     objectClass: simulatedMicrosoftSecurityPrincipal
     objectCategory: User
-    cn: Admin user
+    cn: Administrator
     sn: admin
     uid: admin
     sAMAccountName: admin
     userPassword: PassW20244
-    memberOf: admin
 
-    dn: uid=sidy,ou=users,dc=ansd,dc=sn
+    dn: cn=Sidy SENE,ou=users,dc=data4now,dc=org
     objectClass: top
     objectClass: person
     objectClass: inetOrgPerson
@@ -115,9 +115,8 @@ ldapConfig: |-
     uid: sidy
     sAMAccountName: sidy
     userPassword: password
-    memberOf: dmis
 
-    dn: uid=souleymane,ou=users,dc=ansd,dc=sn
+    dn: cn=Souleymane Cheick,ou=users,dc=data4now,dc=org
     objectClass: top
     objectClass: person
     objectClass: inetOrgPerson
@@ -128,9 +127,8 @@ ldapConfig: |-
     uid: souleymane
     sAMAccountName: souleymane
     userPassword: password
-    memberOf: cdp
 
-    dn: uid=aristide,ou=users,dc=ansd,dc=sn
+    dn: cn=Aristide Mendoo,ou=users,dc=data4now,dc=org
     objectClass: top
     objectClass: person
     objectClass: inetOrgPerson
@@ -141,32 +139,35 @@ ldapConfig: |-
     uid: aristide
     sAMAccountName: aristide
     userPassword: password
-    memberOf: cpcci
 
     ######################
     # Groupes
     ######################
 
-    dn: cn=admin,ou=roles,dc=ansd,dc=sn
+    dn: cn=Administrators,ou=roles,dc=data4now,dc=org
     objectClass: top
     objectClass: groupOfNames
     cn: admin
-    member: uid=admin,ou=users,dc=ansd,dc=sn
+    member: cn=Administrator,ou=users,dc=data4now,dc=org
 
-    dn: cn=dmis,ou=roles,dc=ansd,dc=sn
+    dn: cn=Data Engineers,ou=roles,dc=data4now,dc=org
     objectClass: top
     objectClass: groupOfNames
     cn: dmis
-    member: uid=sidy,ou=users,dc=ansd,dc=sn
-
-    dn: cn=cpcci,ou=roles,dc=ansd,dc=sn
+    member: cn=Aristide Mendoo,ou=users,dc=data4now,dc=org
+    member: cn=Souleymane Cheick,ou=users,dc=data4now,dc=org
+   
+    dn: cn=Data orchestrator,ou=roles,dc=data4now,dc=org
     objectClass: top
     objectClass: groupOfNames
     cn: cpcci
-    member: uid=aristide,ou=users,dc=ansd,dc=sn
+    member: cn=Sidy SENE,ou=users,dc=data4now,dc=org
+    member: cn=Aristide Mendoo,ou=users,dc=data4now,dc=org
 
-    dn: cn=cdp,ou=roles,dc=ansd,dc=sn
+    dn: cn=Data analysts,ou=roles,dc=data4now,dc=org
     objectClass: top
     objectClass: groupOfNames
     cn: cdp
-    member: uid=souleymane,ou=users,dc=ansd,dc=sn
+    member: cn=Aristide Mendoo,ou=users,dc=data4now,dc=org
+    member: cn=Souleymane Cheick,ou=users,dc=data4now,dc=org
+
