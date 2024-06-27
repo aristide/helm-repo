@@ -1,0 +1,7 @@
+ARG JUPYTERHUB_VERSION=3.3.7
+FROM jupyterhub/k8s-hub:${JUPYTERHUB_VERSION}
+
+USER root
+
+RUN sed -i 's/ldap3\.AUTO_BIND_NO_TLS if self\.use_ssl/ldap3.AUTO_BIND_NO_TLS if not self.use_ssl/g' \
+    /usr/local/lib/python3.*/site-packages/ldapauthenticator/ldapauthenticator.py

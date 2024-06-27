@@ -1,0 +1,35 @@
+
+ARG NIFI_VERSION=1.26.0
+
+FROM apache/nifi:${NIFI_VERSION}
+
+USER root
+RUN mkdir /opt/nifi/drivers
+WORKDIR /opt/nifi/drivers
+
+# get mssql driver
+ARG MSSQL_DRIVER=12.6.3
+ARG MSSQL_DRIVER_JAVA_VERSION=8
+RUN wget https://github.com/microsoft/mssql-jdbc/releases/download/v${MSSQL_DRIVER}/mssql-jdbc-${MSSQL_DRIVER}.jre${MSSQL_DRIVER_JAVA_VERSION}.jar
+    
+# get postgresql jdbc driver
+ARG PG_DRIVER=42.7.3
+RUN wget https://jdbc.postgresql.org/download/postgresql-${PG_DRIVER}.jar 
+
+# get oracle jdbc driver
+ARG ORACLE_DRIVER=18.15.0.0
+ARG ORACLE_DRIVER_JAVA_VERSION=8
+RUN wget https://repo1.maven.org/maven2/com/oracle/database/jdbc/ojdbc${ORACLE_DRIVER_JAVA_VERSION}/${ORACLE_DRIVER}/ojdbc${ORACLE_DRIVER_JAVA_VERSION}-${ORACLE_DRIVER}.jar
+
+# get mysql jdbc driver
+ARG MYSQL_DRIVER=8.4.0
+RUN wget https://cdn.mysql.com//Downloads/Connector-J/mysql-connector-j-${MYSQL_DRIVER}.tar.gz & \
+    tar -xvzf mysql-connector-j-${MYSQL_DRIVER}.tar.gz & \
+    cp ./mysql-connector-j-${MYSQL_DRIVER}/mysql-connector-j-${MYSQL_DRIVER}.jar ./ & \
+    rm -rf mysql-connector-j-${MYSQL_DRIVER}  mysql-connector-j-${MYSQL_DRIVER}.tar.gz
+
+USER nifi
+EXPOSE 8080 8443 10000 8000
+
+WORKDIR ${NIFI_HOME}
+ENTRYPOINT ["../scripts/start.sh"]
