@@ -48,6 +48,28 @@ entries:
   minio:
   - apiVersion: v1
     appVersion: RELEASE.2024-06-04T19-20-08Z
+    created: "2024-07-24T14:00:29.3471487Z"
+    description: High Performance Object Storage
+    digest: c8bf52404edd7c9a858eef22b6dca4fbc58630bba6cbd29422b1f86ba07eb31d
+    home: https://min.io
+    icon: https://min.io/resources/img/logo/MINIO_wordmark.png
+    keywords:
+    - minio
+    - storage
+    - object-storage
+    - s3
+    - cluster
+    maintainers:
+    - email: mendoo.aristide@gmail.com
+      name: Aristide
+    name: minio
+    sources:
+    - https://github.com/aristide/helm-repo/tree/main/charts/minio
+    urls:
+    - https://aristide.github.io/helm-repo/stable/minio-5.2.1.tgz
+    version: 5.2.1
+  - apiVersion: v1
+    appVersion: RELEASE.2024-06-04T19-20-08Z
     created: "2024-06-06T10:08:04.0794799Z"
     description: High Performance Object Storage
     digest: ef22e329c9d58cb6fb6497ed7b2c289c0432392136a1df88d138e6cc94c0a75a
@@ -69,6 +91,44 @@ entries:
     - https://aristide.github.io/helm-repo/stable/minio-5.2.0.tgz
     version: 5.2.0
   nifi:
+  - apiVersion: v2
+    appVersion: 1.26.0
+    created: "2024-07-24T14:02:38.2845116Z"
+    dependencies:
+    - condition: zookeeper.enabled
+      name: zookeeper
+      repository: https://charts.bitnami.com/bitnami
+      version: 13.4.5
+    - alias: registry
+      condition: registry.enabled
+      name: nifi-registry
+      repository: https://dysnix.github.io/charts/
+      version: 1.1.5
+    - condition: ca.enabled
+      name: ca
+      repository: ""
+      version: 1.0.1
+    - condition: openldap.enabled
+      name: openldap
+      repository: https://charts.helm.sh/stable
+      version: ~1.2.4
+    description: Apache NiFi is a software project from the Apache Software Foundation
+      designed to automate the flow of data between software systems.
+    digest: 3c08a3011403b00996de9c547c94e21988867145cf343a7e1599b8f66933cfb9
+    home: https://nifi.apache.org/
+    icon: https://svn.apache.org/repos/asf/nifi/site/trunk/images/niFi-logo-horizontal-scaled.png
+    keywords:
+    - nifi
+    - data
+    - process
+    maintainers:
+    - email: mendoo.aristide@gmail.com
+      name: Aristide
+      url: https://github.com/aristide
+    name: nifi
+    urls:
+    - https://aristide.github.io/helm-repo/stable/nifi-1.0.1.tgz
+    version: 1.0.1
   - apiVersion: v2
     appVersion: 1.26.0
     created: "2024-06-27T16:44:40.1703624Z"
@@ -110,7 +170,7 @@ entries:
   nifi-registry:
   - apiVersion: v2
     appVersion: 0.8.0
-    created: "2024-06-27T16:44:40.1727178Z"
+    created: "2024-07-24T14:02:38.2866628Z"
     description: A subproject of Apache NiFi to store and manage shared resources.
     digest: 94f8cf73f20faaa36a3ff03fb2eeac1dd01614af8246a93cbc3c79722fbef72a
     home: https://github.com/dysnix/charts/tree/master/dysnix/nifi-registry
@@ -126,7 +186,7 @@ entries:
   openldap:
   - apiVersion: v1
     appVersion: 2.4.48
-    created: "2024-06-27T16:44:40.1734023Z"
+    created: "2024-07-24T14:02:38.2877516Z"
     deprecated: true
     description: DEPRECATED - Community developed LDAP software
     digest: addd603ed45a87bc275c2d77d91b43b0c8b9ad987e6a160a68fefd49583c737c
@@ -152,7 +212,7 @@ entries:
       licenses: Apache-2.0
     apiVersion: v2
     appVersion: 3.9.2
-    created: "2024-06-27T16:44:40.1773253Z"
+    created: "2024-07-24T14:02:38.2921693Z"
     dependencies:
     - name: common
       repository: oci://registry-1.docker.io/bitnamicharts
@@ -175,4 +235,4 @@ entries:
     urls:
     - https://aristide.github.io/helm-repo/stable/charts/zookeeper-13.4.5.tgz
     version: 13.4.5
-generated: "2024-07-24T11:36:59.5716316Z"
+generated: "2024-07-24T14:02:38.2705946Z"
