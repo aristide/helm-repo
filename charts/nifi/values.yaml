@@ -119,10 +119,12 @@ properties:
     # nifi.web.proxy.host: 64.23.132.178:30443
 
   ## Include aditional processors
+  # <- change me to add custom folder path for lib ->
   # customLibPath: "/opt/configuration_resources/custom_lib"
 
 ## Include additional libraries in the Nifi containers by using the postStart handler
 ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/attach-handler-lifecycle-event/
+# <- change me to download custom lib ->
 # postStart: /opt/nifi/psql; wget -P /opt/nifi/psql https://jdbc.postgresql.org/download/postgresql-42.2.6.jar
 
 # Nifi User Authentication
@@ -250,7 +252,7 @@ ingress:
   # If you want to change the default path, see this issue https://github.com/cetic/helm-nifi/issues/22
 
 # Amount of memory to give the NiFi java heap
-jvmMemory: 2g
+jvmMemory: 4g
 
 # Separate image for tailing each log separately and checking zookeeper connectivity
 sidecar:
