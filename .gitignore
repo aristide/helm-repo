@@ -7,3 +7,4 @@ docker-compose*
 
 index.yaml
 !*/*/index.yaml
+charts/*/index.yaml
