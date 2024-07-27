@@ -23,10 +23,10 @@ RUN wget https://repo1.maven.org/maven2/com/oracle/database/jdbc/ojdbc${ORACLE_D
 
 # get mysql jdbc driver
 ARG MYSQL_DRIVER=8.4.0
-RUN wget https://cdn.mysql.com//Downloads/Connector-J/mysql-connector-j-${MYSQL_DRIVER}.tar.gz & \
-    tar -xvzf mysql-connector-j-${MYSQL_DRIVER}.tar.gz & \
-    cp ./mysql-connector-j-${MYSQL_DRIVER}/mysql-connector-j-${MYSQL_DRIVER}.jar ./ & \
-    rm -rf mysql-connector-j-${MYSQL_DRIVER}  mysql-connector-j-${MYSQL_DRIVER}.tar.gz
+RUN wget https://cdn.mysql.com//Downloads/Connector-J/mysql-connector-j-${MYSQL_DRIVER}.tar.gz  \
+    && tar -xvzf mysql-connector-j-${MYSQL_DRIVER}.tar.gz  \
+    && cp ./mysql-connector-j-${MYSQL_DRIVER}/mysql-connector-j-${MYSQL_DRIVER}.jar ./ \
+    && rm -rf mysql-connector-j-${MYSQL_DRIVER}  mysql-connector-j-${MYSQL_DRIVER}.tar.gz
 
 USER nifi
 EXPOSE 8080 8443 10000 8000
