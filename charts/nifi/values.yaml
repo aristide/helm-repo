@@ -445,7 +445,7 @@ zookeeper:
   ## If the Zookeeper Chart is disabled a URL and port are required to connect
   url: ""
   port: 2181
-  replicaCount: 3
+  replicaCount: 2
 
 # ------------------------------------------------------------------------------
 # Nifi registry:
@@ -456,8 +456,9 @@ registry:
   enabled: true
   url: ""
   port: 80
+  replicaCount: 2
   ## Add values for the nifi-registry here
-  ## ref: https://github.com/dysnix/charts/blob/main/dysnix/nifi-registry/values.yaml
+  ## ref: https://github.com/aristide/helm-repo/tree/main/charts/nifi-registry/values.yaml
 
 # Configure metrics
 metrics:
