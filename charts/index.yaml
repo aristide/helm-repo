@@ -93,6 +93,44 @@ entries:
   nifi:
   - apiVersion: v2
     appVersion: 1.26.0
+    created: "2024-07-29T00:32:05.0493578Z"
+    dependencies:
+    - condition: zookeeper.enabled
+      name: zookeeper
+      repository: https://charts.bitnami.com/bitnami
+      version: 13.4.5
+    - alias: registry
+      condition: registry.enabled
+      name: nifi-registry
+      repository: https://aristide.github.io/helm-repo/stable
+      version: 1.0.0
+    - condition: ca.enabled
+      name: ca
+      repository: ""
+      version: 1.0.1
+    - condition: openldap.enabled
+      name: openldap
+      repository: https://charts.helm.sh/stable
+      version: ~1.2.4
+    description: Apache NiFi is a software project from the Apache Software Foundation
+      designed to automate the flow of data between software systems.
+    digest: 50ff5633403423a86935df5041068fe71189b9ea994794159b6360fc38cd1914
+    home: https://nifi.apache.org/
+    icon: https://svn.apache.org/repos/asf/nifi/site/trunk/images/niFi-logo-horizontal-scaled.png
+    keywords:
+    - nifi
+    - data
+    - process
+    maintainers:
+    - email: mendoo.aristide@gmail.com
+      name: Aristide
+      url: https://github.com/aristide
+    name: nifi
+    urls:
+    - https://aristide.github.io/helm-repo/stable/nifi-2.0.0.tgz
+    version: 2.0.0
+  - apiVersion: v2
+    appVersion: 1.26.0
     created: "2024-07-24T14:02:38.2845116Z"
     dependencies:
     - condition: zookeeper.enabled
@@ -185,7 +223,7 @@ entries:
     version: 1.1.5
   - apiVersion: v2
     appVersion: 1.26.0
-    created: "2024-07-29T00:01:50.4108865Z"
+    created: "2024-07-29T00:32:05.0510816Z"
     description: A subproject of Apache NiFi to store and manage shared resources.
     digest: a85e144f269d7faa17eee775ff837910bda0a43a835cbab0b4fb80ff0a03489b
     home: https://github.com/aristide/helm-repo/tree/main/charts/nifi-registry
@@ -196,12 +234,12 @@ entries:
     name: nifi-registry
     type: application
     urls:
-    - https://aristide.github.io/helm-repo/stable/nifi-registry-1.0.0.tgz
+    - https://aristide.github.io/helm-repo/stable/charts/nifi-registry-1.0.0.tgz
     version: 1.0.0
   openldap:
   - apiVersion: v1
     appVersion: 2.4.48
-    created: "2024-07-24T14:02:38.2877516Z"
+    created: "2024-07-29T00:32:05.0518042Z"
     deprecated: true
     description: DEPRECATED - Community developed LDAP software
     digest: addd603ed45a87bc275c2d77d91b43b0c8b9ad987e6a160a68fefd49583c737c
@@ -227,7 +265,7 @@ entries:
       licenses: Apache-2.0
     apiVersion: v2
     appVersion: 3.9.2
-    created: "2024-07-24T14:02:38.2921693Z"
+    created: "2024-07-29T00:32:05.0551813Z"
     dependencies:
     - name: common
       repository: oci://registry-1.docker.io/bitnamicharts
@@ -250,4 +288,4 @@ entries:
     urls:
     - https://aristide.github.io/helm-repo/stable/charts/zookeeper-13.4.5.tgz
     version: 13.4.5
-generated: "2024-07-29T00:01:50.407091Z"
+generated: "2024-07-29T00:32:05.0415796Z"
