@@ -8,8 +8,8 @@ dependencies:
 - alias: registry
   condition: registry.enabled
   name: nifi-registry
-  repository: https://dysnix.github.io/charts/
-  version: 1.1.5
+  repository: https://aristide.github.io/helm-repo/stable
+  version: 1.0.0
 - condition: ca.enabled
   name: ca
   repository: ""
@@ -31,4 +31,4 @@ maintainers:
   name: Aristide
   url: https://github.com/aristide
 name: nifi
-version: 1.0.1
+version: 2.0.0
