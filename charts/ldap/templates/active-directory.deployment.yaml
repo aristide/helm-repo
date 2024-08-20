@@ -25,7 +25,7 @@ spec:
         - name: active-directory
           image: '{{ .Values.repository.image }}{{ if ne .Values.repository.tag "" }}:{{ .Values.repository.tag }}{{ end }}'
           ports:
-            - name: active-directory
+            - name: ad-port
               containerPort: 10389
           volumeMounts:
             - mountPath: /ldap/users.ldif
