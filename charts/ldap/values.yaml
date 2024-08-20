@@ -3,7 +3,7 @@ repository:
   tag: ""
 
 # check the following link: https://nifi.apache.org/docs/nifi-docs/html/administration-guide.html#ldap-based-usersgroups-referencing-user-dn
-ldapConfig: |-
+ldapConfig: |
   #########################################################
   # MICROSOFT SCHEMA for sAMAccountName and memberOf
   # these two attributes are not defined in Apache Directory Server

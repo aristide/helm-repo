@@ -9,4 +9,4 @@ metadata:
   annotations:
     use-subpath: "true"
 data:
-  users.ldif: {{ .Values.ldapConfig }}
+  users.ldif: {{- .Values.ldapConfig | toYaml | indent 2 }}
