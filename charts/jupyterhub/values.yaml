@@ -33,6 +33,51 @@ imagePullSecrets: []
 hub:
   revisionHistoryLimit:
   config:
+    # <- uncomment and change me if you want to enable ldap active->
+    # Authenticator:
+    #   admin_users:
+    #     - uid=admin,ou=users,dc=ansd,dc=sn
+    # JupyterHub:
+    #   admin_access: true
+    #   authenticator_class: ldapauthenticator.LDAPAuthenticator
+    # LDAPAuthenticator:
+    #   server_address: active-directory.utils.svc.cluster.local
+    #   # Defaults port is set to 389 if no SSL is being used, and 636 is SSL is being used. 
+    #   server_port: 10389
+    #   # Boolean to specify whether to use SSL encryption when contacting the LDAP server
+    #   use_ssl: false
+    #   # groups whose members are allowed to log in. a list of full DNs that have a member attribute that includes the current user attempting to log in.
+    #   # allowed_groups:
+    #   #   - cn=admin,ou=roles,dc=ansd,dc=sn
+    #   #   - cn=cpcci,ou=roles,dc=ansd,dc=sn
+    #   # All usernames will be checked against this before being sent to LDAP. This acts as both an easy way to filter out invalid usernames as well as protection against LDAP injection attacks
+    #   valid_username_regex: "[a-zA-Z0-9_.][a-zA-Z0-9_.-]{0,252}[a-zA-Z0-9_.$-]?"
+    #   # To authenticate a user we need the corresponding DN to bind against the LDAP server. Enable a reverse lookup to obtain the user's DN. This is because ome LDAP servers, such as Active Directory, don't always bind with the true DN
+    #   lookup_dn: true
+    #   # How to query LDAP for user name lookup
+    #   lookup_dn_search_filter: ({login_attr}={login})
+    #   # Technical account DN for user lookup 
+    #   lookup_dn_search_user: uid=admin,ou=users,dc=ansd,dc=sn
+    #   # Technical account password for user lookup
+    #   lookup_dn_search_password: PassWd2024
+    #   # Attribute containing user's name needed for building DN string
+    #   lookup_dn_user_dn_attribute: cn
+    #   # Defines the search base for looking up users in the directory
+    #   user_search_base: ou=users,dc=ansd,dc=sn
+    #   # Defines the attribute that stores a user's username in your directory
+    #   user_attribute: sAMAccountName
+    #   # If set to True, escape special chars in userdn when authenticating in LDAP
+    #   escape_userdn: false
+    #   # is list of string template used to generate the full DN for a user from the human readable username
+    #   bind_dn_template: '{username}'
+    # <- uncomment and change me for dummy authentication ->
+    # Authenticator:
+    #   admin_users:
+    #     - admin
+    #   allowed_users:
+    #     - analyst
+    # DummyAuthenticator:
+    #   password: Data4now
     JupyterHub:
       admin_access: true
       authenticator_class: dummy
@@ -259,7 +304,7 @@ proxy:
       # tag is automatically bumped to new patch versions by the
       # watch-dependencies.yaml workflow.
       #
-      tag: "v3.1.0" # ref: https://hub.docker.com/_/traefik?tab=tags
+      tag: "v2.11.0" # ref: https://hub.docker.com/_/traefik?tab=tags
       pullPolicy:
       pullSecrets: []
     hsts:
@@ -391,11 +436,11 @@ singleuser:
       subPath: "{username}"
     # <- change me to increase  user pod storage capacity ->
     capacity: 5Gi
-    homeMountPath: /home/jovyan
+    homeMountPath: /home/d4now
     dynamic:
       storageClass:
-      pvcNameTemplate: claim-{username}{servername}
-      volumeNameTemplate: volume-{username}{servername}
+      pvcNameTemplate: claim-v{username}{servername}
+      volumeNameTemplate: volume-v{username}{servername}
       storageAccessModes: [ReadWriteOnce]
   image:
     name: aristidetm/basic-notebook
@@ -410,7 +455,7 @@ singleuser:
   # <- change me to increase user pod memory limit ->
   memory:
     limit:
-    guarantee: 2G
+    guarantee: 1G
   extraResource:
     limits: {}
     guarantees: {}
@@ -523,7 +568,7 @@ scheduling:
       # here. We aim to stay around 1 minor version behind the latest k8s
       # version.
       #
-      tag: "v1.28.11" # ref: https://github.com/kubernetes/kubernetes/tree/master/CHANGELOG
+      tag: "v1.26.15" # ref: https://github.com/kubernetes/kubernetes/tree/master/CHANGELOG
       pullPolicy:
       pullSecrets: []
     nodeSelector: {}
@@ -555,7 +600,7 @@ scheduling:
       #
       # If you update this, also update prePuller.pause.image.tag
       #
-      tag: "3.10"
+      tag: "3.9"
       pullPolicy:
       pullSecrets: []
     revisionHistoryLimit:
@@ -641,7 +686,7 @@ prePuller:
       #
       # If you update this, also update scheduling.userPlaceholder.image.tag
       #
-      tag: "3.10"
+      tag: "3.9"
       pullPolicy:
       pullSecrets: []
 
@@ -669,6 +714,7 @@ cull:
   removeNamedServers: false # --remove-named-servers
   timeout: 3600 # --timeout
   every: 600 # --cull-every
+  # <- change me to enable more concurrent users ->
   concurrency: 10 # --concurrency
   maxAge: 0 # --max-age
 

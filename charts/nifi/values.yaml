@@ -131,7 +131,8 @@ properties:
 auth:
   # If set while LDAP is enabled, this value will be used for the initial admin and not the ldap bind dn / admin
   # <- change me by commenting if ldap is enabled ->
-  admin: CN=admin, OU=NIFI
+  # /!\ doest not support special caracters like "&" 
+  admin: CN=admin, OU=NIFI # put "username" if identity strategy is "USE_USERNAME" or "dn" if identity strategy is USE_DN 
   SSL:
     keystorePasswd: changeMe
     truststorePasswd: changeMe
@@ -148,21 +149,26 @@ auth:
   ldap:
     enabled: false
     host: #ldap://<hostname>:<port>
-    admin: #cn=admin,dc=ldap,dc=example,dc=be
+    # /!\ doest not support special caracters like "&"
+    admin: #cn=admin,dc=ldap,dc=example,dc=be # put "username" if identity strategy is "USE_USERNAME" or "dn" if identity strategy is USE_DN
     pass: #ChangeMe
-    identityStrategy: USE_DN
+    identityStrategy: USE_DN  # USE_DN or USE_USERNAME  
+    syncInterval: 30 mins  # Duration of time between syncing users and groups (i.e. 30 mins). Minimum allowable value is 10 secs. 
+    userReferralStrategy: IGNORE # IGNORE, FOLLOW, THROW 
     authExpiration: 12 hours
     userProviderAuthStrategy: SIMPLE # How the connection to the LDAP server is authenticated. Possible values are ANONYMOUS, SIMPLE, LDAPS, or START_TLS.
-    userSearchBase: #CN=Users,DC=ldap,DC=example,DC=be
-    userSearchFilter: (objectClass=*)
+    # /!\ doest not support special caracters like "&"
+    userSearchBase: #Ou=Users,DC=ldap,DC=example,DC=be should be an organisation Unit
+    userSearchFilter: (sAMAccountName=*)  # (objectClass=*) for ldap
     userObjectClass: person
-    userIdentityAttribute: cn
+    userIdentityAttribute: sAMAccountName
     userSearchScope: ONE_LEVEL # Search scope for searching users (ONE_LEVEL, OBJECT, or SUBTREE). Required if searching users.
+    groupReferralStrategy: IGNORE # values are IGNORE, FOLLOW, THROW 
     groupProviderAuthStrategy: SIMPLE # How the connection to the LDAP server is authenticated. Possible values are ANONYMOUS, SIMPLE, LDAPS, or START_TLS.    
     groupSearchBase: #CN=Users,DC=ldap,DC=example,DC=be
     groupSearchFilter:
-    groupObjectClass: group
-    groupNameAttribute:
+    groupObjectClass: groupOfNames
+    groupNameAttribute: memberof
     groupMemberAttribute:
     groupSearchScope: ONE_LEVEL # Search scope for searching groups (ONE_LEVEL, OBJECT, or SUBTREE). Required if searching groups.
 
@@ -251,6 +257,7 @@ ingress:
   path: /
   # If you want to change the default path, see this issue https://github.com/cetic/helm-nifi/issues/22
 
+# <- enable and change me to increase java memory heap ->
 # Amount of memory to give the NiFi java heap
 jvmMemory: 4g
 
@@ -263,9 +270,9 @@ sidecar:
 ## Enable persistence using Persistent Volume Claims
 ## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
 ##
-# <- enable and change me to have a persistent volume ->
+# <-  change me to keep configurations persistent ->
 persistence:
-  enabled: false
+  enabled: true
 
   # When creating persistent storage, the NiFi helm chart can either reference an already-defined
   # storage class by name, such as "standard" or can define a custom storage class by specifying
@@ -286,7 +293,7 @@ persistence:
   subPath:
     enabled: false
     name: data
-    size: 30Gi
+    size: 5Gi
 
   ## Storage Capacities for persistent volumes (these are ignored if using one volume with subPath)
   configStorage:
@@ -298,16 +305,16 @@ persistence:
     size: 1Gi
   # Storage capacity for the FlowFile repository
   flowfileRepoStorage:
-    size: 10Gi
+    size: 1Gi
   # Storage capacity for the Content repository
   contentRepoStorage:
-    size: 10Gi
+    size: 1Gi
   # Storage capacity for the Provenance repository. When changing this, one should also change the properties.provenanceStorage value above, also.
   provenanceRepoStorage:
-    size: 10Gi
+    size: 1Gi
   # Storage capacity for nifi logs
   logStorage:
-    size: 5Gi
+    size: 2Gi
 
 ## Configure resource requests and limits
 ## ref: http://kubernetes.io/docs/user-guide/compute-resources/

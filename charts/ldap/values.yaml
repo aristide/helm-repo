@@ -4,170 +4,170 @@ repository:
 
 # check the following link: https://nifi.apache.org/docs/nifi-docs/html/administration-guide.html#ldap-based-usersgroups-referencing-user-dn
 ldapConfig: |-
-    #########################################################
-    # MICROSOFT SCHEMA for sAMAccountName and memberOf
-    # these two attributes are not defined in Apache Directory Server
-    #########################################################
+  #########################################################
+  # MICROSOFT SCHEMA for sAMAccountName and memberOf
+  # these two attributes are not defined in Apache Directory Server
+  #########################################################
 
-    dn: cn=microsoft, ou=schema
-    objectclass: metaSchema
-    objectclass: top
-    cn: microsoft
+  dn: cn=microsoft, ou=schema
+  objectclass: metaSchema
+  objectclass: top
+  cn: microsoft
 
-    dn: ou=attributetypes, cn=microsoft, ou=schema
-    objectclass: organizationalUnit
-    objectclass: top
-    ou: attributetypes
+  dn: ou=attributetypes, cn=microsoft, ou=schema
+  objectclass: organizationalUnit
+  objectclass: top
+  ou: attributetypes
 
-    dn: m-oid=1.2.840.113556.1.4.221, ou=attributetypes, cn=microsoft, ou=schema
-    objectclass: metaAttributeType
-    objectclass: metaTop
-    objectclass: top
-    m-oid: 1.2.840.113556.1.4.221
-    m-name: sAMAccountName
-    m-equality: caseIgnoreMatch
-    m-syntax: 1.3.6.1.4.1.1466.115.121.1.15
-    m-singleValue: TRUE
+  dn: m-oid=1.2.840.113556.1.4.221, ou=attributetypes, cn=microsoft, ou=schema
+  objectclass: metaAttributeType
+  objectclass: metaTop
+  objectclass: top
+  m-oid: 1.2.840.113556.1.4.221
+  m-name: sAMAccountName
+  m-equality: caseIgnoreMatch
+  m-syntax: 1.3.6.1.4.1.1466.115.121.1.15
+  m-singleValue: TRUE
 
-    dn: m-oid=1.2.840.113556.1.4.222, ou=attributetypes, cn=microsoft, ou=schema
-    objectclass: metaAttributeType
-    objectclass: metaTop
-    objectclass: top
-    m-oid: 1.2.840.113556.1.4.222
-    m-name: memberOf
-    m-equality: caseIgnoreMatch
-    m-syntax: 1.3.6.1.4.1.1466.115.121.1.15
-    m-singleValue: FALSE
+  dn: m-oid=1.2.840.113556.1.4.222, ou=attributetypes, cn=microsoft, ou=schema
+  objectclass: metaAttributeType
+  objectclass: metaTop
+  objectclass: top
+  m-oid: 1.2.840.113556.1.4.222
+  m-name: memberOf
+  m-equality: caseIgnoreMatch
+  m-syntax: 1.3.6.1.4.1.1466.115.121.1.15
+  m-singleValue: FALSE
 
-    dn: m-oid=1.2.840.113556.1.4.223, ou=attributetypes, cn=microsoft, ou=schema
-    objectclass: metaAttributeType
-    objectclass: metaTop
-    objectclass: top
-    m-oid: 1.2.840.113556.1.4.223
-    m-name: objectCategory
-    m-equality: caseIgnoreMatch
-    m-syntax: 1.3.6.1.4.1.1466.115.121.1.15
-    m-singleValue: TRUE
+  dn: m-oid=1.2.840.113556.1.4.223, ou=attributetypes, cn=microsoft, ou=schema
+  objectclass: metaAttributeType
+  objectclass: metaTop
+  objectclass: top
+  m-oid: 1.2.840.113556.1.4.223
+  m-name: objectCategory
+  m-equality: caseIgnoreMatch
+  m-syntax: 1.3.6.1.4.1.1466.115.121.1.15
+  m-singleValue: TRUE
 
-    dn: ou=objectclasses, cn=microsoft, ou=schema
-    objectclass: organizationalUnit
-    objectclass: top
-    ou: objectClasses
+  dn: ou=objectclasses, cn=microsoft, ou=schema
+  objectclass: organizationalUnit
+  objectclass: top
+  ou: objectClasses
 
-    dn: m-oid=1.2.840.113556.1.5.6, ou=objectclasses, cn=microsoft, ou=schema
-    objectclass: metaObjectClass
-    objectclass: metaTop
-    objectclass: top
-    m-oid: 1.2.840.113556.1.5.6
-    m-name: simulatedMicrosoftSecurityPrincipal
-    m-supObjectClass: top
-    m-typeObjectClass: AUXILIARY
-    m-must: sAMAccountName
-    m-may: memberOf
-    m-must: objectCategory
+  dn: m-oid=1.2.840.113556.1.5.6, ou=objectclasses, cn=microsoft, ou=schema
+  objectclass: metaObjectClass
+  objectclass: metaTop
+  objectclass: top
+  m-oid: 1.2.840.113556.1.5.6
+  m-name: simulatedMicrosoftSecurityPrincipal
+  m-supObjectClass: top
+  m-typeObjectClass: AUXILIARY
+  m-must: sAMAccountName
+  m-may: memberOf
+  m-must: objectCategory
 
-    ######################
-    # Custom Domain
-    ######################
-    dn: dc=data4now,dc=org
-    dc: data4now
-    objectClass: top
-    objectClass: domain
+  ######################
+  # Custom Domain
+  ######################
+  dn: dc=data4now,dc=org
+  dc: data4now
+  objectClass: top
+  objectClass: domain
 
-    ######################
-    # roles
-    ######################
+  ######################
+  # Organisation Unit
+  ######################
 
-    dn: ou=users,dc=data4now,dc=org
-    objectClass: organizationalUnit
-    objectClass: top
-    ou: users
+  dn: ou=users,dc=data4now,dc=org
+  objectClass: organizationalUnit
+  objectClass: top
+  ou: users
 
-    dn: ou=roles,dc=data4now,dc=org
-    objectclass: top
-    objectclass: organizationalUnit
-    ou: roles
+  dn: ou=roles,dc=data4now,dc=org
+  objectclass: top
+  objectclass: organizationalUnit
+  ou: roles
 
-    ######################
-    # Users
-    ######################
 
-    dn: cn=Administrator,ou=users,dc=data4now,dc=org
-    objectClass: top
-    objectClass: person
-    objectClass: inetOrgPerson
-    objectClass: simulatedMicrosoftSecurityPrincipal
-    objectCategory: User
-    cn: Administrator
-    sn: admin
-    uid: admin
-    sAMAccountName: admin
-    userPassword: PassW20244
+  ######################
+  # Users
+  ######################
 
-    dn: cn=Sidy SENE,ou=users,dc=data4now,dc=org
-    objectClass: top
-    objectClass: person
-    objectClass: inetOrgPerson
-    objectClass: simulatedMicrosoftSecurityPrincipal
-    objectCategory: User
-    cn: Sidy SENE
-    sn: sidy
-    uid: sidy
-    sAMAccountName: sidy
-    userPassword: password
+  dn: cn=Administrator,ou=users,dc=data4now,dc=org
+  objectClass: top
+  objectClass: person
+  objectClass: inetOrgPerson
+  objectClass: simulatedMicrosoftSecurityPrincipal
+  objectCategory: User
+  cn: Administrator
+  sn: admin
+  uid: admin
+  sAMAccountName: admin
+  userPassword: PassW20244
 
-    dn: cn=Souleymane Cheick,ou=users,dc=data4now,dc=org
-    objectClass: top
-    objectClass: person
-    objectClass: inetOrgPerson
-    objectClass: simulatedMicrosoftSecurityPrincipal
-    objectCategory: User
-    cn: Souleymane Cheick
-    sn: souleymane
-    uid: souleymane
-    sAMAccountName: souleymane
-    userPassword: password
+  dn: cn=Sidy SENE,ou=users,dc=data4now,dc=org
+  objectClass: top
+  objectClass: person
+  objectClass: inetOrgPerson
+  objectClass: simulatedMicrosoftSecurityPrincipal
+  objectCategory: User
+  cn: Sidy SENE
+  sn: sidy
+  uid: sidy
+  sAMAccountName: sidy
+  userPassword: password
 
-    dn: cn=Aristide Mendoo,ou=users,dc=data4now,dc=org
-    objectClass: top
-    objectClass: person
-    objectClass: inetOrgPerson
-    objectClass: simulatedMicrosoftSecurityPrincipal
-    objectCategory: User
-    cn: Aristide Mendoo
-    sn: aristide
-    uid: aristide
-    sAMAccountName: aristide
-    userPassword: password
+  dn: cn=Souleymane Cheick,ou=users,dc=data4now,dc=org
+  objectClass: top
+  objectClass: person
+  objectClass: inetOrgPerson
+  objectClass: simulatedMicrosoftSecurityPrincipal
+  objectCategory: User
+  cn: Souleymane Cheick
+  sn: souleymane
+  uid: souleymane
+  sAMAccountName: souleymane
+  userPassword: password
 
-    ######################
-    # Groupes
-    ######################
+  dn: cn=Aristide Mendoo,ou=users,dc=data4now,dc=org
+  objectClass: top
+  objectClass: person
+  objectClass: inetOrgPerson
+  objectClass: simulatedMicrosoftSecurityPrincipal
+  objectCategory: User
+  cn: Aristide Mendoo
+  sn: aristide
+  uid: aristide
+  sAMAccountName: aristide
+  userPassword: password
 
-    dn: cn=Administrators,ou=roles,dc=data4now,dc=org
-    objectClass: top
-    objectClass: groupOfNames
-    cn: admin
-    member: cn=Administrator,ou=users,dc=data4now,dc=org
+  ######################
+  # Groups
+  ######################
 
-    dn: cn=Data Engineers,ou=roles,dc=data4now,dc=org
-    objectClass: top
-    objectClass: groupOfNames
-    cn: dmis
-    member: cn=Aristide Mendoo,ou=users,dc=data4now,dc=org
-    member: cn=Souleymane Cheick,ou=users,dc=data4now,dc=org
-   
-    dn: cn=Data orchestrator,ou=roles,dc=data4now,dc=org
-    objectClass: top
-    objectClass: groupOfNames
-    cn: cpcci
-    member: cn=Sidy SENE,ou=users,dc=data4now,dc=org
-    member: cn=Aristide Mendoo,ou=users,dc=data4now,dc=org
+  dn: cn=Administrators,ou=roles,dc=data4now,dc=org
+  objectClass: top
+  objectClass: groupOfNames
+  cn: admin
+  member: cn=Administrator,ou=users,dc=data4now,dc=org
 
-    dn: cn=Data analysts,ou=roles,dc=data4now,dc=org
-    objectClass: top
-    objectClass: groupOfNames
-    cn: cdp
-    member: cn=Aristide Mendoo,ou=users,dc=data4now,dc=org
-    member: cn=Souleymane Cheick,ou=users,dc=data4now,dc=org
+  dn: cn=Data Engineers,ou=roles,dc=data4now,dc=org
+  objectClass: top
+  objectClass: groupOfNames
+  cn: dmis
+  member: cn=Aristide Mendoo,ou=users,dc=data4now,dc=org
+  member: cn=Souleymane Cheick,ou=users,dc=data4now,dc=org
+  
+  dn: cn=Data orchestrator,ou=roles,dc=data4now,dc=org
+  objectClass: top
+  objectClass: groupOfNames
+  cn: cpcci
+  member: cn=Sidy SENE,ou=users,dc=data4now,dc=org
+  member: cn=Aristide Mendoo,ou=users,dc=data4now,dc=org
 
+  dn: cn=Data analysts,ou=roles,dc=data4now,dc=org
+  objectClass: top
+  objectClass: groupOfNames
+  cn: cdp
+  member: cn=Aristide Mendoo,ou=users,dc=data4now,dc=org
+  member: cn=Souleymane Cheick,ou=users,dc=data4now,dc=org

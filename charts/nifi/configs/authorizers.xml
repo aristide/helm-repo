@@ -133,12 +133,12 @@
         <property name="TLS - Client Auth">NONE</property>
         <property name="TLS - Protocol">TLS</property>
         <property name="TLS - Shutdown Gracefully">false</property>
-        <property name="Referral Strategy">IGNORE</property>
+        <property name="Referral Strategy">{{.Values.auth.ldap.groupReferralStrategy}}</property>
         <property name="Connect Timeout">10 secs</property>
         <property name="Read Timeout">10 secs</property>
         <property name="Url">{{.Values.auth.ldap.host}}</property>
         <property name="Page Size"></property>
-        <property name="Sync Interval">30 mins</property>
+        <property name="Sync Interval">{{.Values.auth.ldap.syncInterval}}</property>
         <property name="User Search Base">{{.Values.auth.ldap.userSearchBase}}</property>
         <property name="User Object Class">{{.Values.auth.ldap.userObjectClass}}</property>
         <property name="User Search Scope">{{.Values.auth.ldap.userSearchScope}}</property>

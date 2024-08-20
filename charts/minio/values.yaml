@@ -453,24 +453,24 @@ buckets:
   #   # bucket [true|false] NOTE: versioning is enabled by default if you use locking
   #   objectlocking: false
   - name: raw
-    policy: none
+    policy: none   
     purge: false
-    versioning: false
+    versioning: true
     objectlocking: false
   - name: anonymized
     policy: none
     purge: false
-    versioning: false
+    versioning: true
     objectlocking: false
   - name: staging
     policy: none
     purge: false
-    versioning: false
+    versioning: true
     objectlocking: false
   - name: aggregated
     policy: none
     purge: false
-    versioning: false
+    versioning: true
     objectlocking: false
 
 ## Additional Annotations for the Kubernetes Job makeBucketJob
@@ -524,11 +524,11 @@ environment:
   ## MINIO_BROWSER: "off"
   # <- uncomment and change me if you are using active directory/ldap identity management ->
   MINIO_IDENTITY_LDAP_SERVER_ADDR: "active-directory.utils.svc.cluster.local:10389"
-  MINIO_IDENTITY_LDAP_LOOKUP_BIND_DN: "uid=admin,ou=users,dc=ansd,dc=sn"
+  MINIO_IDENTITY_LDAP_LOOKUP_BIND_DN: "uid=admin,ou=users,dc=ansd,dc=sn" 
   MINIO_IDENTITY_LDAP_LOOKUP_BIND_PASSWORD: "PassWd2024"
-  MINIO_IDENTITY_LDAP_USER_DN_SEARCH_BASE_DN: "ou=users,dc=ansd,dc=sn"
+  MINIO_IDENTITY_LDAP_USER_DN_SEARCH_BASE_DN: "dc=ansd,dc=sn" # organization domaine
   MINIO_IDENTITY_LDAP_USER_DN_SEARCH_FILTER: "(&(objectCategory=User)(sAMAccountName=%s))"
-  MINIO_IDENTITY_LDAP_GROUP_SEARCH_BASE_DN: "ou=roles,dc=ansd,dc=sn"
+  MINIO_IDENTITY_LDAP_GROUP_SEARCH_BASE_DN: "dc=ansd,dc=sn"  # organization domaine
   MINIO_IDENTITY_LDAP_GROUP_SEARCH_FILTER: "(&(ObjectClass=groupOfNames)(member=%d))"
   MINIO_IDENTITY_LDAP_TLS_SKIP_VERIFY: "off"
   MINIO_IDENTITY_LDAP_SERVER_INSECURE: "on"
