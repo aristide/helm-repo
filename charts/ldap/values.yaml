@@ -13,7 +13,7 @@ ldapConfig: |
   objectclass: metaSchema
   objectclass: top
   cn: microsoft
-
+  
   dn: ou=attributetypes, cn=microsoft, ou=schema
   objectclass: organizationalUnit
   objectclass: top
@@ -69,43 +69,95 @@ ldapConfig: |
   ######################
   # Custom Domain
   ######################
-  dn: dc=data4now,dc=org
+  dn: dc=data4now, dc=org
   dc: data4now
   objectClass: top
   objectClass: domain
 
   ######################
-  # Organisation Unit
+  # Organizational Unit
   ######################
 
-  dn: ou=users,dc=data4now,dc=org
+  dn: ou=IT Department, dc=data4now, dc=org
   objectClass: organizationalUnit
   objectClass: top
-  ou: users
+  ou: IT Department
 
-  dn: ou=roles,dc=data4now,dc=org
+  dn: ou=Analysis & Dissemination Department, dc=data4now, dc=org
   objectclass: top
   objectclass: organizationalUnit
-  ou: roles
+  ou: Analysis & Dissemination Department
 
+  dn: ou=Datalake Department, dc=data4now, dc=org
+  objectclass: top
+  objectclass: organizationalUnit
+  ou: Datalake Department
 
   ######################
   # Users
   ######################
 
-  dn: cn=Administrator,ou=users,dc=data4now,dc=org
+  dn: cn=Samrat M, ou=IT Department, dc=data4now, dc=org
   objectClass: top
   objectClass: person
   objectClass: inetOrgPerson
   objectClass: simulatedMicrosoftSecurityPrincipal
   objectCategory: User
-  cn: Administrator
-  sn: admin
-  uid: admin
-  sAMAccountName: admin
-  userPassword: PassW20244
+  cn: Samrat M
+  sn: samrat
+  uid: samrat
+  sAMAccountName: samrat
+  userPassword: PassWordD4Now
 
-  dn: cn=Sidy SENE,ou=users,dc=data4now,dc=org
+  dn: cn=Aristide Mendo'o, ou=IT Department, dc=data4now, dc=org
+  objectClass: top
+  objectClass: person
+  objectClass: inetOrgPerson
+  objectClass: simulatedMicrosoftSecurityPrincipal
+  objectCategory: User
+  cn: Aristide Mendo'o
+  sn: aristide
+  uid: aristide
+  sAMAccountName: aristide
+  userPassword: PassWordD4Now
+
+  dn: cn=Baijanthi Feba, ou=IT Department, dc=data4now, dc=org
+  objectClass: top
+  objectClass: person
+  objectClass: inetOrgPerson
+  objectClass: simulatedMicrosoftSecurityPrincipal
+  objectCategory: User
+  cn: Baijanthi Feba
+  sn: baijanthi
+  uid: baijanthi
+  sAMAccountName: baijanthi
+  userPassword: PassWordD4Now
+
+  dn: cn=Bruno Donat, ou=IT Department, dc=data4now, dc=org
+  objectClass: top
+  objectClass: person
+  objectClass: inetOrgPerson
+  objectClass: simulatedMicrosoftSecurityPrincipal
+  objectCategory: User
+  cn: Bruno Donat
+  sn: brunod
+  uid: brunod
+  sAMAccountName: bruno
+  userPassword: PassWordD4Now
+
+  dn: cn=Phạm Thị, ou=IT Department, dc=data4now, dc=org
+  objectClass: top
+  objectClass: person
+  objectClass: inetOrgPerson
+  objectClass: simulatedMicrosoftSecurityPrincipal
+  objectCategory: User
+  cn: Phạm Thị
+  sn: phamthi
+  uid: phamethi
+  sAMAccountName: phamthi
+  userPassword: PassWordD4Now
+
+  dn: cn=Sidy SENE, ou=IT Department, dc=data4now, dc=org
   objectClass: top
   objectClass: person
   objectClass: inetOrgPerson
@@ -115,59 +167,64 @@ ldapConfig: |
   sn: sidy
   uid: sidy
   sAMAccountName: sidy
-  userPassword: password
+  userPassword: PassWordD4Now
 
-  dn: cn=Souleymane Cheick,ou=users,dc=data4now,dc=org
+  dn: cn=Đỗ Luis Ngọc Hà, ou=Analysis & Dissemination Department, dc=data4now, dc=org
   objectClass: top
   objectClass: person
   objectClass: inetOrgPerson
   objectClass: simulatedMicrosoftSecurityPrincipal
   objectCategory: User
-  cn: Souleymane Cheick
-  sn: souleymane
-  uid: souleymane
-  sAMAccountName: souleymane
-  userPassword: password
+  cn: Đỗ Luis Ngọc Hà
+  sn: doluis
+  uid: doluis
+  sAMAccountName: doluis
+  userPassword: PassWordD4Now
 
-  dn: cn=Aristide Mendoo,ou=users,dc=data4now,dc=org
+  dn: cn=Faryal Ahmed, ou=Analysis & Dissemination Department, dc=data4now, dc=org
   objectClass: top
   objectClass: person
   objectClass: inetOrgPerson
   objectClass: simulatedMicrosoftSecurityPrincipal
   objectCategory: User
-  cn: Aristide Mendoo
-  sn: aristide
-  uid: aristide
-  sAMAccountName: aristide
-  userPassword: password
+  cn: Faryal Ahmed
+  sn: faryal
+  uid: faryal
+  sAMAccountName: faryal
+  userPassword: PassWordD4Now
 
   ######################
   # Groups
   ######################
 
-  dn: cn=Administrators,ou=roles,dc=data4now,dc=org
+  dn: cn=Administrators, ou=Datalake Department, dc=data4now, dc=org
   objectClass: top
   objectClass: groupOfNames
-  cn: admin
-  member: cn=Administrator,ou=users,dc=data4now,dc=org
+  objectClass: group
+  cn: Administrators
+  member: cn=Samrat M, ou=IT Department, dc=data4now, dc=org
+  member: cn=Aristide Mendo'o, ou=IT Department, dc=data4now, dc=org
 
-  dn: cn=Data Engineers,ou=roles,dc=data4now,dc=org
+  dn: cn=Data Engineers, ou=Datalake Department, dc=data4now, dc=org
   objectClass: top
   objectClass: groupOfNames
-  cn: dmis
-  member: cn=Aristide Mendoo,ou=users,dc=data4now,dc=org
-  member: cn=Souleymane Cheick,ou=users,dc=data4now,dc=org
+  objectClass: group
+  cn: Data Engineers
+  member: cn=Baijanthi Feba, ou=IT Department, dc=data4now, dc=org
+  member: cn=Bruno Donat, ou=IT Department, dc=data4now, dc=org
   
-  dn: cn=Data orchestrator,ou=roles,dc=data4now,dc=org
+  dn: cn=Data orchestration, ou=Datalake Department, dc=data4now, dc=org
   objectClass: top
   objectClass: groupOfNames
-  cn: cpcci
-  member: cn=Sidy SENE,ou=users,dc=data4now,dc=org
-  member: cn=Aristide Mendoo,ou=users,dc=data4now,dc=org
+  objectClass: group
+  cn: Data orchestration
+  member: cn=Sidy SENE, ou=IT Department, dc=data4now, dc=org
+  member: cn=Phạm Thị, ou=IT Department, dc=data4now, dc=org
 
-  dn: cn=Data analysts,ou=roles,dc=data4now,dc=org
+  dn: cn=Data analysts, ou=Datalake Department, dc=data4now, dc=org
   objectClass: top
   objectClass: groupOfNames
-  cn: cdp
-  member: cn=Aristide Mendoo,ou=users,dc=data4now,dc=org
-  member: cn=Souleymane Cheick,ou=users,dc=data4now,dc=org
+  objectClass: group
+  cn: Data analysts
+  member: cn=Faryal Ahmed, ou=Analysis & Dissemination Department, dc=data4now, dc=org
+  member: cn=Đỗ Luis Ngọc Hà, ou=Analysis & Dissemination Department, dc=data4now, dc=org

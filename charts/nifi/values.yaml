@@ -150,7 +150,7 @@ auth:
     enabled: false
     host: #ldap://<hostname>:<port>
     # /!\ doest not support special caracters like "&"
-    admin: #cn=admin,dc=ldap,dc=example,dc=be # put "username" if identity strategy is "USE_USERNAME" or "dn" if identity strategy is USE_DN
+    admin: #cn=admin,dc=ldap,dc=example,dc=be
     pass: #ChangeMe
     identityStrategy: USE_DN  # USE_DN or USE_USERNAME  
     syncInterval: 30 mins  # Duration of time between syncing users and groups (i.e. 30 mins). Minimum allowable value is 10 secs. 
@@ -167,8 +167,8 @@ auth:
     groupProviderAuthStrategy: SIMPLE # How the connection to the LDAP server is authenticated. Possible values are ANONYMOUS, SIMPLE, LDAPS, or START_TLS.    
     groupSearchBase: #CN=Users,DC=ldap,DC=example,DC=be
     groupSearchFilter:
-    groupObjectClass: groupOfNames
-    groupNameAttribute: memberof
+    groupObjectClass: group
+    groupNameAttribute: member
     groupMemberAttribute:
     groupSearchScope: ONE_LEVEL # Search scope for searching groups (ONE_LEVEL, OBJECT, or SUBTREE). Required if searching groups.
 
