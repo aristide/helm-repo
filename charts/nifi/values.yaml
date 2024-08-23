@@ -72,7 +72,6 @@ sts:
 #       - myconf.conf
 #     mountPath: /opt/nifi/custom-config
 
-
 properties:
   # https://nifi.apache.org/docs/nifi-docs/html/administration-guide.html#nifi_sensitive_props_key
   sensitiveKey: changeMechangeMe # Must have at least 12 characters
@@ -131,11 +130,11 @@ properties:
 auth:
   # If set while LDAP is enabled, this value will be used for the initial admin and not the ldap bind dn / admin
   # <- change me by commenting if ldap is enabled ->
-  # /!\ doest not support special caracters like "&" 
-  admin: CN=admin, OU=NIFI # put "username" if identity strategy is "USE_USERNAME" or "dn" if identity strategy is USE_DN 
+  # /!\ doest not support special caracters like "&" etc.
+  admin: CN=admin, OU=NIFI # put "username"(sAMAccountName) if identity strategy is "USE_USERNAME" or "dn" if identity strategy is USE_DN 
   SSL:
-    keystorePasswd: changeMe
-    truststorePasswd: changeMe
+    keystorePasswd: 50GUz3rEBwA9
+    truststorePasswd: J£76DA3ikp£9
 
   # Automaticaly disabled if OIDC or LDAP enabled
   singleUser:
@@ -154,7 +153,7 @@ auth:
     pass: #ChangeMe
     identityStrategy: USE_DN  # USE_DN or USE_USERNAME  
     syncInterval: 30 mins  # Duration of time between syncing users and groups (i.e. 30 mins). Minimum allowable value is 10 secs. 
-    userReferralStrategy: IGNORE # IGNORE, FOLLOW, THROW 
+    userReferralStrategy: FOLLOW # IGNORE, FOLLOW, THROW 
     authExpiration: 12 hours
     userProviderAuthStrategy: SIMPLE # How the connection to the LDAP server is authenticated. Possible values are ANONYMOUS, SIMPLE, LDAPS, or START_TLS.
     # /!\ doest not support special caracters like "&"
@@ -163,13 +162,13 @@ auth:
     userObjectClass: person
     userIdentityAttribute: sAMAccountName
     userSearchScope: ONE_LEVEL # Search scope for searching users (ONE_LEVEL, OBJECT, or SUBTREE). Required if searching users.
-    groupReferralStrategy: IGNORE # values are IGNORE, FOLLOW, THROW 
+    groupReferralStrategy: FOLLOW # values are IGNORE, FOLLOW, THROW 
     groupProviderAuthStrategy: SIMPLE # How the connection to the LDAP server is authenticated. Possible values are ANONYMOUS, SIMPLE, LDAPS, or START_TLS.    
     groupSearchBase: #CN=Users,DC=ldap,DC=example,DC=be
-    groupSearchFilter:
-    groupObjectClass: group
-    groupNameAttribute: member
-    groupMemberAttribute:
+    groupSearchFilter:        # (|(cn=nifi-admins)(cn=nifi-team1))
+    groupObjectClass: group  # `group` or groupOfNames 
+    groupNameAttribute: cn
+    groupMemberAttribute: member
     groupSearchScope: ONE_LEVEL # Search scope for searching groups (ONE_LEVEL, OBJECT, or SUBTREE). Required if searching groups.
 
   oidc:
@@ -212,9 +211,11 @@ headless:
 
 # ui service
 service:
-  type: ClusterIP
+  # change me to ClusterIP to use ingress
+  type: NotePort
   httpsPort: 8443
-  # nodePort: 30236
+  # change me and comment to use ingress 
+  nodePort: 30443
   annotations: {}
     # loadBalancerIP:
     ## Load Balancer sources
@@ -272,7 +273,7 @@ sidecar:
 ##
 # <-  change me to keep configurations persistent ->
 persistence:
-  enabled: true
+  enabled: false
 
   # When creating persistent storage, the NiFi helm chart can either reference an already-defined
   # storage class by name, such as "standard" or can define a custom storage class by specifying

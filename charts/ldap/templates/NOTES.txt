@@ -3,5 +3,7 @@ Congratulations,
 
 Your application is now deployed. This may take a while to be up and responding.
 
+Internal DNS: {{ .Release.Name }}-active-directory.{{ .Release.Namespace }}.svc.cluster.local:10389
+External DNS: {Server Ip Address}:30389
 Default password: PassWordD4Now
 
