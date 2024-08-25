@@ -2,9 +2,11 @@
 
 ## 1.0.0
 
-Improvments:
+Improvements:
 
   - User organizational Units and groups
+  - custom ldap image that works with MacOs
+  - add notes
 
 Fix:
 

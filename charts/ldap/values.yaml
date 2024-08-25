@@ -1,5 +1,5 @@
 repository:
-  image: dwimberger/ldap-ad-it
+  image: aristidetm/ldap-ad
   tag: ""
 
 # check the following link: https://nifi.apache.org/docs/nifi-docs/html/administration-guide.html#ldap-based-usersgroups-referencing-user-dn
@@ -97,6 +97,18 @@ ldapConfig: |
   # Users
   ######################
 
+  dn: cn=Ldap User, ou=Datalake Department, dc=data4now, dc=org
+  objectClass: top
+  objectClass: person
+  objectClass: inetOrgPerson
+  objectClass: simulatedMicrosoftSecurityPrincipal
+  objectCategory: User
+  cn: Ldap User
+  sn: ldapuser
+  uid: ldapuser
+  sAMAccountName: ldapuser
+  userPassword: PassWordD4Now
+
   dn: cn=Samrat M, ou=IT Department, dc=data4now, dc=org
   objectClass: top
   objectClass: person
@@ -108,6 +120,7 @@ ldapConfig: |
   uid: samrat
   sAMAccountName: samrat
   userPassword: PassWordD4Now
+  memberOf: cn=Administrators, ou=Datalake Department, dc=data4now, dc=org
 
   dn: cn=Aristide Mendo'o, ou=IT Department, dc=data4now, dc=org
   objectClass: top
@@ -120,6 +133,8 @@ ldapConfig: |
   uid: aristide
   sAMAccountName: aristide
   userPassword: PassWordD4Now
+  memberOf: cn=Administrators, ou=Datalake Department, dc=data4now, dc=org
+  memberOf: cn=Data Engineers, ou=Datalake Department, dc=data4now, dc=org
 
   dn: cn=Baijanthi Feba, ou=IT Department, dc=data4now, dc=org
   objectClass: top
@@ -132,7 +147,8 @@ ldapConfig: |
   uid: baijanthi
   sAMAccountName: baijanthi
   userPassword: PassWordD4Now
-
+  memberOf: cn=Data Engineers, ou=Datalake Department, dc=data4now, dc=org
+  
   dn: cn=Bruno Donat, ou=IT Department, dc=data4now, dc=org
   objectClass: top
   objectClass: person
@@ -144,6 +160,7 @@ ldapConfig: |
   uid: brunod
   sAMAccountName: bruno
   userPassword: PassWordD4Now
+  memberOf: cn=Data Engineers, ou=Datalake Department, dc=data4now, dc=org
 
   dn: cn=Phạm Thị, ou=IT Department, dc=data4now, dc=org
   objectClass: top
@@ -156,6 +173,7 @@ ldapConfig: |
   uid: phamethi
   sAMAccountName: phamthi
   userPassword: PassWordD4Now
+  memberOf: cn=Data orchestration, ou=Datalake Department, dc=data4now, dc=org
 
   dn: cn=Sidy SENE, ou=IT Department, dc=data4now, dc=org
   objectClass: top
@@ -168,6 +186,7 @@ ldapConfig: |
   uid: sidy
   sAMAccountName: sidy
   userPassword: PassWordD4Now
+  memberOf: cn=Data orchestration, ou=Datalake Department, dc=data4now, dc=org
 
   dn: cn=Đỗ Luis Ngọc Hà, ou=Analysis & Dissemination Department, dc=data4now, dc=org
   objectClass: top
@@ -180,6 +199,7 @@ ldapConfig: |
   uid: doluis
   sAMAccountName: doluis
   userPassword: PassWordD4Now
+  memberOf: cn=Data analysts, ou=Datalake Department, dc=data4now, dc=org
 
   dn: cn=Faryal Ahmed, ou=Analysis & Dissemination Department, dc=data4now, dc=org
   objectClass: top
@@ -192,6 +212,7 @@ ldapConfig: |
   uid: faryal
   sAMAccountName: faryal
   userPassword: PassWordD4Now
+  memberOf: cn=Data analysts, ou=Datalake Department, dc=data4now, dc=org
 
   ######################
   # Groups
@@ -212,6 +233,7 @@ ldapConfig: |
   cn: Data Engineers
   member: cn=Baijanthi Feba, ou=IT Department, dc=data4now, dc=org
   member: cn=Bruno Donat, ou=IT Department, dc=data4now, dc=org
+  member: cn=Aristide Mendo'o, ou=IT Department, dc=data4now, dc=org
   
   dn: cn=Data orchestration, ou=Datalake Department, dc=data4now, dc=org
   objectClass: top
