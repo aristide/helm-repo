@@ -3,7 +3,16 @@ Congratulations,
 
 Your application is now deployed. This may take a while to be up and responding.
 
-Internal DNS: {{ .Release.Name }}-active-directory.{{ .Release.Namespace }}.svc.cluster.local:10389
+No SSL port :
+------------
+Internal DNS: {{ .Release.Name }}-active-directory.{{ .Release.Namespace }}.svc.cluster.local:389
 External DNS: {Server Ip Address}:30389
-Default password: PassWordD4Now
+
+SSL port :
+----------
+Internal DNS: {{ .Release.Name }}-active-directory.{{ .Release.Namespace }}.svc.cluster.local:636
+External DNS: {Server Ip Address}:30636
+
+Default Administrator: CN=Administrator,CN=Users,DC={{ join ",DC=" (splitList "." .Values.domain) }}
+Default password: {{ .Values.adminpass }}
 

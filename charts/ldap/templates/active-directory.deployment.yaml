@@ -25,17 +25,16 @@ spec:
         - name: active-directory
           image: '{{ .Values.repository.image }}{{ if ne .Values.repository.tag "" }}:{{ .Values.repository.tag }}{{ end }}'
           ports:
-            - name: ad-port
-              containerPort: 10389
-          volumeMounts:
-            - mountPath: /ldap/users.ldif
-              name: '{{ .Release.Name }}-configs'
-              subPath: users.ldif
-      volumes:
-        - configMap:
-            items:
-              - key: users.ldif
-                path: users.ldif
-            name: '{{ .Release.Name }}-configs'
-          name: '{{ .Release.Name }}-configs'
-
+            - name: nossl-port
+              containerPort: 389
+            - name: ssl-port
+              containerPort: 636
+          env:
+          - name: REALM
+            value: '{{ .Values.domain }}'
+          - name: DOMAIN
+            value: '{{ splitList "." .Values.domain  | first }}'
+          - name: ADMINPASS
+            value: '{{ .Values.adminpass }}'
+          - name: INSECURE_LDAP
+            value: 'true'

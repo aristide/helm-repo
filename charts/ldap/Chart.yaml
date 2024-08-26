@@ -1,5 +1,5 @@
 apiVersion: v2
-appVersion: 0.0.1
+appVersion: latest
 description: A helm chart for ldap 
 icon: https://img.icons8.com/pulsar-color/96/active-directory.png
 name: ldap
@@ -10,9 +10,10 @@ keywords:
 - authentication
 - cluster
 - active-directory
+- samba ad dc
 maintainers:
 - email: mendoo.aristide@gmail.com
   name: Aristide
-home: https://github.com/dwimberger/ldap-ad-it
+home: https://github.com/smblds/smblds-container
 sources:
 - https://github.com/aristide/helm-repo/tree/main/charts/ldap

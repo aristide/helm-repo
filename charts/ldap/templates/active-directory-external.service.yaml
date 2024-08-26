@@ -14,8 +14,12 @@ spec:
     katenary.io/component: active-directory
     katenary.io/release: '{{ .Release.Name }}'
   ports:
-    - name: nodeport
-      port: 10389
-      targetPort: 10389
+    - name: port-nossl
+      port: 389
+      targetPort: 389
       nodePort: 30389
+    - name: port-ssl
+      port: 636
+      targetPort: 636
+      nodePort: 30636
   type: NodePort

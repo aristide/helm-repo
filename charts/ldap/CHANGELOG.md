@@ -4,8 +4,7 @@
 
 Improvements:
 
-  - User organizational Units and groups
-  - custom ldap image that works with MacOs
+  - change ad container to Samba AD DC
   - add notes
 
 Fix:
