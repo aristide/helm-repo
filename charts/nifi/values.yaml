@@ -101,6 +101,7 @@ properties:
   zookeeperSessionTimeout: '3 secs'
   archiveMaxRetentionPeriod: "3 days"
   archiveMaxUsagePercentage: "85%"
+  archiveEnabled: true
   provenanceStorage: "8 GB"
   provenanceMaxStorageTime: "10 days"
   flowArchiveMaxTime: "30 days"
@@ -131,7 +132,7 @@ auth:
   # If set while LDAP is enabled, this value will be used for the initial admin and not the ldap bind dn / admin
   # <- change me by commenting if ldap is enabled ->
   # /!\ doest not support special caracters like "&" etc.
-  admin: CN=admin, OU=NIFI # put "username"(sAMAccountName) if identity strategy is "USE_USERNAME" or "dn" if identity strategy is USE_DN 
+  admin: CN=admin, OU=NIFI # put "username"(sAMAccountName) if identity strategy is "USE_USERNAME" or "dn" if identity strategy is USE_DN
   SSL:
     keystorePasswd: 50GUz3rEBwA9
     truststorePasswd: J£76DA3ikp£9
@@ -151,9 +152,9 @@ auth:
     # /!\ doest not support special caracters like "&"
     admin: #cn=admin,dc=ldap,dc=example,dc=be
     pass: #ChangeMe
-    identityStrategy: USE_DN  # USE_DN or USE_USERNAME  
-    syncInterval: 30 mins  # Duration of time between syncing users and groups (i.e. 30 mins). Minimum allowable value is 10 secs. 
-    userReferralStrategy: FOLLOW # IGNORE, FOLLOW, THROW 
+    identityStrategy: USE_DN  # USE_DN or USE_USERNAME
+    syncInterval: 30 mins  # Duration of time between syncing users and groups (i.e. 30 mins). Minimum allowable value is 10 secs.
+    userReferralStrategy: FOLLOW # IGNORE, FOLLOW, THROW
     authExpiration: 12 hours
     userProviderAuthStrategy: SIMPLE # How the connection to the LDAP server is authenticated. Possible values are ANONYMOUS, SIMPLE, LDAPS, or START_TLS.
     # /!\ doest not support special caracters like "&"
@@ -162,11 +163,11 @@ auth:
     userObjectClass: person
     userIdentityAttribute: sAMAccountName
     userSearchScope: ONE_LEVEL # Search scope for searching users (ONE_LEVEL, OBJECT, or SUBTREE). Required if searching users.
-    groupReferralStrategy: FOLLOW # values are IGNORE, FOLLOW, THROW 
-    groupProviderAuthStrategy: SIMPLE # How the connection to the LDAP server is authenticated. Possible values are ANONYMOUS, SIMPLE, LDAPS, or START_TLS.    
+    groupReferralStrategy: FOLLOW # values are IGNORE, FOLLOW, THROW
+    groupProviderAuthStrategy: SIMPLE # How the connection to the LDAP server is authenticated. Possible values are ANONYMOUS, SIMPLE, LDAPS, or START_TLS.
     groupSearchBase: #CN=Users,DC=ldap,DC=example,DC=be
     groupSearchFilter:        # (|(cn=nifi-admins)(cn=nifi-team1))
-    groupObjectClass: group  # `group` or groupOfNames 
+    groupObjectClass: group  # `group` or groupOfNames
     groupNameAttribute: cn
     groupMemberAttribute: member
     groupSearchScope: ONE_LEVEL # Search scope for searching groups (ONE_LEVEL, OBJECT, or SUBTREE). Required if searching groups.
@@ -214,7 +215,7 @@ service:
   # change me to ClusterIP to use ingress
   type: NotePort
   httpsPort: 8443
-  # change me and comment to use ingress 
+  # change me and comment to use ingress
   nodePort: 30443
   annotations: {}
     # loadBalancerIP:
