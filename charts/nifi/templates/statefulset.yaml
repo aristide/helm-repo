@@ -18,11 +18,11 @@ spec:
       release: {{ .Release.Name }}
   template:
     metadata:
-      annotations:
 {{- if .Values.sts.pod.annotations }}
+      annotations:
 {{ toYaml .Values.sts.pod.annotations | indent 8 }}
-{{- else }}
-        security.alpha.kubernetes.io/sysctls: net.ipv4.ip_local_port_range=10000 65000
+# {{- else }}
+#         security.alpha.kubernetes.io/sysctls: net.ipv4.ip_local_port_range=10000 65000
 {{- end }}
       labels:
         app: {{ include "apache-nifi.name" . | quote }}
@@ -33,6 +33,10 @@ spec:
 {{ toYaml .Values.extraLabels | indent 8 }}
 {{- end }}
     spec:
+{{- if .Values.sts.pod.securityContext }}
+      securityContext:
+{{ toYaml .Values.sts.securityContext | indent 8 }}
+{{- end }}
 {{- if .Values.sts.useHostNetwork }}
       hostNetwork: {{ .Values.sts.useHostNetwork }}
       dnsPolicy: ClusterFirstWithHostNet
@@ -256,7 +260,11 @@ spec:
           then
             /opt/nifi/nifi-toolkit-current/bin/tls-toolkit.sh standalone \
               -n '{{.Release.Name}}-nifi-0.{{.Release.Name}}-nifi-headless.{{.Release.Namespace}}.svc.cluster.local' \
+              {{- if .Values.auth.ldap.enabled }}
+              -C '{{.Values.auth.ldap.admin}}' \
+              {{- else }}
               -C '{{.Values.auth.admin}}' \
+              {{- end }}
               -o "${NIFI_HOME}/conf/" \
               -P {{.Values.auth.SSL.truststorePasswd}} \
               -S {{.Values.auth.SSL.keystorePasswd}} \
@@ -307,8 +315,11 @@ spec:
               echo "truststoreType=$(prop nifi.security.truststoreType)" >> secure.properties
               echo "truststore=$(prop nifi.security.truststore)" >> secure.properties
               echo "truststorePasswd=$(prop nifi.security.truststorePasswd)" >> secure.properties
+              {{- if .Values.auth.ldap.enabled }}
+              echo "proxiedEntity={{ .Values.auth.ldap.admin }}" >> secure.properties
+              {{- else }}
               echo "proxiedEntity={{ .Values.auth.admin }}" >> secure.properties
-             
+              {{- end }}
               secureArgs="-p secure.properties"
 
               echo baseUrl ${baseUrl}
@@ -390,7 +401,7 @@ spec:
 {{ toYaml .Values.containerPorts | indent 8 }}
 {{- end }}
         env:
-        - name: NIFI_ZOOKEEPER_CONNECT_STRING
+        - name: NIFI_ZOOKEEPER_CONNECT_STRING 
           value: {{ template "zookeeper.url" . }}
 {{- if not (or (.Values.auth.ldap.enabled) (.Values.auth.oidc.enabled)) }}
         - name: NIFI_WEB_HTTPS_HOST

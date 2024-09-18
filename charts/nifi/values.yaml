@@ -37,8 +37,12 @@ sts:
   useHostNetwork: null
   hostPort: null
   pod:
-    annotations:
-      security.alpha.kubernetes.io/sysctls: net.ipv4.ip_local_port_range=10000 65000
+    securityContext:
+      sysctls:
+      - name: net.ipv4.ip_local_port_range
+        value: "10000 65000"
+    annotations: null
+      # security.alpha.kubernetes.io/sysctls: net.ipv4.ip_local_port_range=10000 65000 # deprecated use this one instead https://kubernetes.io/docs/tasks/administer-cluster/sysctl-cluster/ 
       #prometheus.io/scrape: "true"
   serviceAccount:
     create: false
@@ -90,8 +94,10 @@ properties:
   algorithm: NIFI_PBKDF2_AES_GCM_256
   # use externalSecure for when inbound SSL is provided by nginx-ingress or other external mechanism
   externalSecure: false
+  # <- change me if replicaCount > 1 -> 
   isNode: false
   httpsPort: 8443
+   # <- change me to add custom domain or ip:port adress ->
   webProxyHost: # <clusterIP>:<NodePort> (If Nifi service is NodePort or LoadBalancer)
   clusterPort: 6007
   zkClientEnsembleTraker: false # https://issues.apache.org/jira/browse/NIFI-10481
@@ -114,7 +120,6 @@ properties:
     # listen to loopback interface so "kubectl port-forward ..." works
     nifi.web.http.network.interface.lo: lo
     # add custom domain or ip adresses to http headers
-    # <- change me to add custom domain or ip adress to the ->
     # nifi.web.proxy.host: 64.23.132.178:30443
 
   ## Include aditional processors
@@ -131,15 +136,15 @@ auth:
   # If set while LDAP is enabled, this value will be used for the initial admin and not the ldap bind dn / admin
   # <- change me by commenting if ldap is enabled ->
   # /!\ doest not support special caracters like "&" etc.
-  admin: CN=admin, OU=NIFI # put "username"(sAMAccountName) if identity strategy is "USE_USERNAME" or "dn" if identity strategy is USE_DN 
+  # admin: serviceaccount # if ldap enabled, it should correspond value found in identityStrategy (username or dn) 
   SSL:
     keystorePasswd: 50GUz3rEBwA9
     truststorePasswd: J£76DA3ikp£9
 
   # Automaticaly disabled if OIDC or LDAP enabled
   singleUser:
-    username: username
-    password: changemechangeme # Must to have at least 12 characters
+    username: serviceaccount
+    password: PassWordD4Now # Must to have at least 12 characters
 
   clientAuth:
     enabled: false
@@ -147,29 +152,35 @@ auth:
   # <- change me if you want to enable active directory ->
   ldap:
     enabled: false
-    host: #ldap://<hostname>:<port>
+    host: ldap://ldap-active-directory.d4n-utils.svc.cluster.local:389 #ldap://<hostname>:<port>
     # /!\ doest not support special caracters like "&"
-    admin: #cn=admin,dc=ldap,dc=example,dc=be
-    pass: #ChangeMe
-    identityStrategy: USE_DN  # USE_DN or USE_USERNAME  
-    syncInterval: 30 mins  # Duration of time between syncing users and groups (i.e. 30 mins). Minimum allowable value is 10 secs. 
-    userReferralStrategy: FOLLOW # IGNORE, FOLLOW, THROW 
-    authExpiration: 12 hours
-    userProviderAuthStrategy: SIMPLE # How the connection to the LDAP server is authenticated. Possible values are ANONYMOUS, SIMPLE, LDAPS, or START_TLS.
-    # /!\ doest not support special caracters like "&"
-    userSearchBase: #Ou=Users,DC=ldap,DC=example,DC=be should be an organisation Unit
-    userSearchFilter: (sAMAccountName=*)  # (objectClass=*) for ldap
-    userObjectClass: person
-    userIdentityAttribute: sAMAccountName
-    userSearchScope: ONE_LEVEL # Search scope for searching users (ONE_LEVEL, OBJECT, or SUBTREE). Required if searching users.
-    groupReferralStrategy: FOLLOW # values are IGNORE, FOLLOW, THROW 
-    groupProviderAuthStrategy: SIMPLE # How the connection to the LDAP server is authenticated. Possible values are ANONYMOUS, SIMPLE, LDAPS, or START_TLS.    
-    groupSearchBase: #CN=Users,DC=ldap,DC=example,DC=be
-    groupSearchFilter:        # (|(cn=nifi-admins)(cn=nifi-team1))
-    groupObjectClass: group  # `group` or groupOfNames 
-    groupNameAttribute: cn
-    groupMemberAttribute: member
-    groupSearchScope: ONE_LEVEL # Search scope for searching groups (ONE_LEVEL, OBJECT, or SUBTREE). Required if searching groups.
+    admin: cn=Service Account,ou=General,dc=data4now,dc=org #cn=admin,dc=ldap,dc=example,dc=be
+    pass: PassWordD4Now #ChangeMe
+    authenticationStrategy: SIMPLE # How the connection to the LDAP server is authenticated. Possible values are ANONYMOUS, SIMPLE, LDAPS, or START_TLS.
+    #  this section to configure the Nifi Login provider
+    loginProvider:
+      referralStrategy: FOLLOW # IGNORE, FOLLOW, THROW 
+      userSearchBase: ou=General,dc=data4now,dc=org #ou=Users,dc=ldap,dc=example,dc=be should be an organisation Unit or a container, but Not a group
+      userSearchFilter: (sAMAccountName={0})
+      identityStrategy: USE_USERNAME  # USE_DN or USE_USERNAME
+      authExpiration: 12 hours
+    userGroupProvider:
+      syncInterval: 30 mins  # Duration of time between syncing users and groups (i.e. 30 mins). Minimum allowable value is 10 secs. 
+      referralStrategy: FOLLOW # IGNORE, FOLLOW, THROW
+      ## retrieve users 
+      # /!\ doest not support special caracters like "&"
+      userSearchBase: ou=Datalake,dc=data4now,dc=org #ou=Users,dc=ldap,dc=example,dc=be should be an organisation Unit
+      userSearchFilter: (sAMAccountName=*)  # (objectClass=*) for ldap
+      userObjectClass: person
+      userIdentityAttribute: sAMAccountName # should relate what is mention on identityStrategy: "sAMAccountName" for USE_USERNAME and "dn" for USE_DN  
+      userSearchScope: SUBTREE # Search scope for searching users (ONE_LEVEL, OBJECT, or SUBTREE). Required if searching users.
+      ## retrieve groups
+      groupSearchBase: #cn=Users,dc=ldap,dc=example,dc=be
+      groupSearchFilter:        # (|(cn=nifi-admins)(cn=nifi-team1))
+      groupObjectClass: group  # `group` or groupOfNames 
+      groupNameAttribute: cn # set this to  "cn" if identityStrategy is USE_USERNAME else "dn"
+      groupMemberAttribute: member
+      groupSearchScope: SUBTREE # Search scope for searching groups (ONE_LEVEL, OBJECT, or SUBTREE). Required if searching groups.
 
   oidc:
     enabled: false
@@ -212,10 +223,10 @@ headless:
 # ui service
 service:
   # change me to ClusterIP to use ingress
-  type: NotePort
+  type: ClusterIP
   httpsPort: 8443
   # change me and comment to use ingress 
-  nodePort: 30443
+  # nodePort: 30443
   annotations: {}
     # loadBalancerIP:
     ## Load Balancer sources
@@ -464,7 +475,7 @@ registry:
   enabled: true
   url: ""
   port: 80
-  replicaCount: 2
+  replicaCount: 1
   ## Add values for the nifi-registry here
   ## ref: https://github.com/aristide/helm-repo/tree/main/charts/nifi-registry/values.yaml
 

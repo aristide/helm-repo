@@ -18,13 +18,6 @@
   - JupyterHub version:   {{ .Chart.AppVersion }}
   - Hub pod packages:     See https://github.com/jupyterhub/zero-to-jupyterhub-k8s/blob/{{ include "jupyterhub.chart-version-to-git-ref" .Chart.Version }}/images/hub/requirements.txt
 
-### Followup links
-
-  - Documentation:  https://z2jh.jupyter.org
-  - Help forum:     https://discourse.jupyter.org
-  - Social chat:    https://gitter.im/jupyterhub/jupyterhub
-  - Issue tracking: https://github.com/jupyterhub/zero-to-jupyterhub-k8s/issues
-
 ### Post-installation checklist
 
   - Verify that created Pods enter a Running state:

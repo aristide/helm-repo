@@ -29,3 +29,5 @@ values.schema.yaml
 .project
 .idea/
 *.tmproj
+config.yaml
+proxy.yaml

@@ -201,7 +201,7 @@ service:
 # <- enable and change me to configure minio api ingress ->
 ingress:
   enabled: false
-  ingressClassName: ~
+  ingressClassName: apisix
   labels: {}
     # node-role.kubernetes.io/ingress: platform
   annotations: {}
@@ -242,7 +242,7 @@ consoleService:
 # <- enable and change me to configure minio console ingress ->
 consoleIngress:
   enabled: false
-  ingressClassName: ~
+  ingressClassName: apisix
   labels: {}
     # node-role.kubernetes.io/ingress: platform
   annotations: {}
@@ -369,8 +369,8 @@ users:
   ## Add new policies as explained here https://min.io/docs/minio/kubernetes/upstream/administration/identity-access-management.html#access-management
   ## NOTE: this will fail if LDAP is enabled in your MinIO deployment
   ## make sure to disable this if you are using LDAP.
-  - accessKey: console
-    secretKey: console123
+  - accessKey: data4now
+    secretKey: PassWordD4Now
     policy: consoleAdmin
   # Or you can refer to specific secret
   #- accessKey: externalSecret
@@ -523,13 +523,13 @@ environment:
   ## MINIO_SUBNET_LICENSE: "License key obtained from https://subnet.min.io"
   ## MINIO_BROWSER: "off"
   # <- uncomment and change me if you are using active directory/ldap identity management ->
-  MINIO_IDENTITY_LDAP_SERVER_ADDR: "active-directory.utils.svc.cluster.local:10389"
-  MINIO_IDENTITY_LDAP_LOOKUP_BIND_DN: "uid=admin,ou=users,dc=ansd,dc=sn" 
-  MINIO_IDENTITY_LDAP_LOOKUP_BIND_PASSWORD: "PassWd2024"
-  MINIO_IDENTITY_LDAP_USER_DN_SEARCH_BASE_DN: "dc=ansd,dc=sn" # organization domaine
+  MINIO_IDENTITY_LDAP_SERVER_ADDR: "ldap-active-directory.d4n-utils.svc.cluster.local:389"
+  MINIO_IDENTITY_LDAP_LOOKUP_BIND_DN: "CN=Service Account,OU=General,DC=data4now,DC=org" 
+  MINIO_IDENTITY_LDAP_LOOKUP_BIND_PASSWORD: "PassWordD4Now"
+  MINIO_IDENTITY_LDAP_USER_DN_SEARCH_BASE_DN: "DC=data4now,DC=org" # organization domaine
   MINIO_IDENTITY_LDAP_USER_DN_SEARCH_FILTER: "(&(objectCategory=User)(sAMAccountName=%s))"
-  MINIO_IDENTITY_LDAP_GROUP_SEARCH_BASE_DN: "dc=ansd,dc=sn"  # organization domaine
-  MINIO_IDENTITY_LDAP_GROUP_SEARCH_FILTER: "(&(ObjectClass=groupOfNames)(member=%d))"
+  MINIO_IDENTITY_LDAP_GROUP_SEARCH_BASE_DN: "DC=data4now,DC=org"  # organization domaine
+  MINIO_IDENTITY_LDAP_GROUP_SEARCH_FILTER: "(&(ObjectClass=user)(member=%d))"
   MINIO_IDENTITY_LDAP_TLS_SKIP_VERIFY: "off"
   MINIO_IDENTITY_LDAP_SERVER_INSECURE: "on"
   MINIO_API_CORS_ALLOW_ORIGIN: "*"

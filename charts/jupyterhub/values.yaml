@@ -24,7 +24,6 @@ imagePullSecret:
 # imagePullSecrets is configuration to reference the k8s Secret resources the
 # Helm chart's pods can get credentials from to pull their images.
 imagePullSecrets: []
-
 # hub relates to the hub pod, responsible for running JupyterHub, its configured
 # Authenticator class KubeSpawner, and its configured Proxy class
 # ConfigurableHTTPProxy. KubeSpawner creates the user pods, and
@@ -35,49 +34,53 @@ hub:
   config:
     # <- uncomment and change me if you want to enable ldap active->
     # Authenticator:
-    #   admin_users:
-    #     - uid=admin,ou=users,dc=ansd,dc=sn
     # JupyterHub:
     #   admin_access: true
     #   authenticator_class: ldapauthenticator.LDAPAuthenticator
     # LDAPAuthenticator:
-    #   server_address: active-directory.utils.svc.cluster.local
+    #   server_address: ldap-active-directory.d4n-utils.svc.cluster.local
     #   # Defaults port is set to 389 if no SSL is being used, and 636 is SSL is being used. 
-    #   server_port: 10389
+    #   server_port: 389
     #   # Boolean to specify whether to use SSL encryption when contacting the LDAP server
     #   use_ssl: false
+    #   # admin users. List of admin usernames 
+    #   admin_users:
+    #     - serviceaccount
     #   # groups whose members are allowed to log in. a list of full DNs that have a member attribute that includes the current user attempting to log in.
-    #   # allowed_groups:
-    #   #   - cn=admin,ou=roles,dc=ansd,dc=sn
-    #   #   - cn=cpcci,ou=roles,dc=ansd,dc=sn
+    #   allowed_groups:
+    #     - CN=Data Admins,OU=Datalake,DC=data4now,DC=org
+    #     - CN=Data Analysts,OU=Datalake,DC=data4now,DC=org
+    #     - CN=Data Engineers,OU=Datalake,DC=data4now,DC=org
+    #     - CN=Data Orchestrators,OU=Datalake,DC=data4now,DC=org    
     #   # All usernames will be checked against this before being sent to LDAP. This acts as both an easy way to filter out invalid usernames as well as protection against LDAP injection attacks
     #   valid_username_regex: "[a-zA-Z0-9_.][a-zA-Z0-9_.-]{0,252}[a-zA-Z0-9_.$-]?"
     #   # To authenticate a user we need the corresponding DN to bind against the LDAP server. Enable a reverse lookup to obtain the user's DN. This is because ome LDAP servers, such as Active Directory, don't always bind with the true DN
     #   lookup_dn: true
     #   # How to query LDAP for user name lookup
     #   lookup_dn_search_filter: ({login_attr}={login})
-    #   # Technical account DN for user lookup 
-    #   lookup_dn_search_user: uid=admin,ou=users,dc=ansd,dc=sn
+    #   # Technical account DN for user lookup
+    #   lookup_dn_search_user: CN=Service Account,OU=General,DC=data4now,DC=org
     #   # Technical account password for user lookup
-    #   lookup_dn_search_password: PassWd2024
+    #   lookup_dn_search_password: PassWordD4Now
     #   # Attribute containing user's name needed for building DN string
-    #   lookup_dn_user_dn_attribute: cn
-    #   # Defines the search base for looking up users in the directory
-    #   user_search_base: ou=users,dc=ansd,dc=sn
+    #   lookup_dn_user_dn_attribute: distinguishedName  # CN or distinguishedName
+    #   # Defines the search base for looking up users in the directory: Container/OU or base Domain
+    #   user_search_base: DC=data4now,DC=org
     #   # Defines the attribute that stores a user's username in your directory
     #   user_attribute: sAMAccountName
     #   # If set to True, escape special chars in userdn when authenticating in LDAP
     #   escape_userdn: false
-    #   # is list of string template used to generate the full DN for a user from the human readable username
+    #   # Is list of string template used to generate the full DN for a user from the human readable username
     #   bind_dn_template: '{username}'
+    #   use_lookup_dn_username: false
     # <- uncomment and change me for dummy authentication ->
-    # Authenticator:
-    #   admin_users:
-    #     - admin
-    #   allowed_users:
-    #     - analyst
-    # DummyAuthenticator:
-    #   password: Data4now
+    Authenticator:
+      admin_users:
+        - data4now
+      allowed_users:
+        - analyst
+    DummyAuthenticator:
+      password: PassWordD4Now
     JupyterHub:
       admin_access: true
       authenticator_class: dummy
@@ -129,7 +132,8 @@ hub:
   extraVolumeMounts: []
   image:
     name: aristidetm/k8s-hub
-    tag: "3.3.7"
+    # <- change me to version 3.1.0 when you are behing proxy or using API ingress conf https://github.com/jupyterhub/zero-to-jupyterhub-k8s/issues/3422 ->
+    tag: "3.3.8"    # use versio
     pullPolicy:
     pullSecrets: []
   resources: {}
@@ -227,8 +231,8 @@ proxy:
     rollingUpdate:
   # service relates to the proxy-public service
   service:
-    # <- change me into ClusterIP if you are not loadbalancer ->
-    type: LoadBalancer
+    # <- change me into LoadBalancer if you are using loadbalancer ->
+    type: ClusterIP
     labels: {}
     annotations: {}
     nodePorts:
@@ -251,7 +255,7 @@ proxy:
       # tag is automatically bumped to new patch versions by the
       # watch-dependencies.yaml workflow.
       #
-      tag: "4.6.1" # https://github.com/jupyterhub/configurable-http-proxy/tags
+      tag: "4.6.2" # https://github.com/jupyterhub/configurable-http-proxy/tags
       pullPolicy:
       pullSecrets: []
     extraCommandLineFlags: []
@@ -304,7 +308,7 @@ proxy:
       # tag is automatically bumped to new patch versions by the
       # watch-dependencies.yaml workflow.
       #
-      tag: "v2.11.0" # ref: https://hub.docker.com/_/traefik?tab=tags
+      tag: "v2.11.9" # ref: https://hub.docker.com/_/traefik?tab=tags
       pullPolicy:
       pullSecrets: []
     hsts:
@@ -351,7 +355,7 @@ proxy:
       allowPrivilegeEscalation: false
     image:
       name: quay.io/jupyterhub/k8s-secret-sync
-      tag: "3.3.7"
+      tag: "3.3.8"
       pullPolicy:
       pullSecrets: []
     resources: {}
@@ -391,7 +395,7 @@ singleuser:
   networkTools:
     image:
       name: quay.io/jupyterhub/k8s-network-tools
-      tag: "3.3.7"
+      tag: "3.3.8"
       pullPolicy:
       pullSecrets: []
     resources: {}
@@ -444,7 +448,7 @@ singleuser:
       storageAccessModes: [ReadWriteOnce]
   image:
     name: aristidetm/basic-notebook
-    tag: "3.6.5"
+    tag: "3.6.6"
     pullPolicy:
     pullSecrets: []
   startTimeout: 300
@@ -655,7 +659,7 @@ prePuller:
     # image and the configuration below relates to the hook-image-awaiter Job
     image:
       name: quay.io/jupyterhub/k8s-image-awaiter
-      tag: "3.3.7"
+      tag: "3.3.8"
       pullPolicy:
       pullSecrets: []
     containerSecurityContext:
@@ -694,8 +698,9 @@ prePuller:
 ingress:
   enabled: false
   annotations: {}
-  ingressClassName:
-  hosts: []
+  ingressClassName: apisix
+  hosts:
+    - jupyterhub.example.com
   pathSuffix:
   pathType: Prefix
   tls: []
@@ -716,7 +721,7 @@ cull:
   every: 600 # --cull-every
   # <- change me to enable more concurrent users ->
   concurrency: 10 # --concurrency
-  maxAge: 0 # --max-age
+  maxAge: 172800 # --max-age (2 days)
 
 debug:
   enabled: false

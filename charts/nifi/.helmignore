@@ -28,3 +28,7 @@
 doc/
 .github/
 *.exec
+config.yaml
+proxy.yaml
+
+Temp/

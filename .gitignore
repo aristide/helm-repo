@@ -9,3 +9,7 @@ index.yaml
 !*/*/index.yaml
 charts/*/index.yaml
 charts/*/config.yaml
+charts/*/proxy.yaml
+
+Temp/
+.DS_Store
