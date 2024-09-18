@@ -210,7 +210,7 @@ RUN export PIP_BREAK_SYSTEM_PACKAGES=1 \
     jupyterlab-language-pack-ar-SA==${JUPYTERLAB_LANG_PACK} \
     jupyterlab-language-pack-fr-FR==${JUPYTERLAB_LANG_PACK} \
     jupyterlab-language-pack-vi-VN==${JUPYTERLAB_LANG_PACK} \
-    jupyterlab-s3-browser==0.12.0 \
+    jupyterlab-minio \
     ipyflex \
     ipyvuetify \
     pandas \
@@ -227,7 +227,9 @@ RUN export PIP_BREAK_SYSTEM_PACKAGES=1 \
     matplotlib \
     scipy \
     pyarrow \
+    nbcelltests \
     fastavro \
+    import-ipynb \
   ## Clean up
   && rm -rf /tmp/* \
     ${HOME}/.cache
