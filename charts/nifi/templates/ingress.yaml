@@ -1,5 +1,16 @@
+{{- if .Values.ingress.enabled }}
+{{- if .Values.ingress.d4nowk8s }}
 ---
-{{- if .Values.ingress.enabled -}}
+apiVersion: apisix.apache.org/v2
+kind: ApisixUpstream
+metadata:
+  name: {{ include "apache-nifi.name" . | quote }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  scheme: https
+
+{{- end }}
+---
 {{- $fullName := include "apache-nifi.fullname" $ -}}
 {{- $ingressPath := .Values.ingress.path -}}
 {{- $ingressHttpsPort := .Values.service.httpsPort -}}

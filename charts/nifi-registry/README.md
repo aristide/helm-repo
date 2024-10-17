@@ -1,5 +1,7 @@
 # Helm Chart for Apache NiFi
 
+From [Dysnix Chart](https://github.com/dysnix/charts/tree/main/dysnix/nifi-registry)
+
 ## Configure NiFi Helm repo
 
 ```bash

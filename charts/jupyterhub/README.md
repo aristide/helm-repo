@@ -1,5 +1,7 @@
 # JupyterHub Helm chart
 
+From [JupyterHub ](https://github.com/jupyterhub/zero-to-jupyterhub-k8s/tree/3.x/jupyterhub)
+
 ## Configure JupyterHub Helm repo
 
 ```bash

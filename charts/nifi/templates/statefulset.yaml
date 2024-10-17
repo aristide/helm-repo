@@ -403,6 +403,8 @@ spec:
         env:
         - name: NIFI_ZOOKEEPER_CONNECT_STRING 
           value: {{ template "zookeeper.url" . }}
+        # NODE_IDENTITIES: 'nifi-1,nifi-2,nifi-3'
+        # NIFI_CLUSTER_LOAD_BALANCE_HOST: nifi-1
 {{- if not (or (.Values.auth.ldap.enabled) (.Values.auth.oidc.enabled)) }}
         - name: NIFI_WEB_HTTPS_HOST
           value: 0.0.0.0
