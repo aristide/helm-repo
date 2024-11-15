@@ -211,6 +211,7 @@ RUN export PIP_BREAK_SYSTEM_PACKAGES=1 \
     jupyterlab-language-pack-fr-FR==${JUPYTERLAB_LANG_PACK} \
     jupyterlab-language-pack-vi-VN==${JUPYTERLAB_LANG_PACK} \
     jupyterlab-minio \
+    jupyterlab-code-snippets \
     ipyflex \
     ipyvuetify \
     pandas \
@@ -230,6 +231,7 @@ RUN export PIP_BREAK_SYSTEM_PACKAGES=1 \
     nbcelltests \
     fastavro \
     import-ipynb \
+    ## add custom python packages here
   ## Clean up
   && rm -rf /tmp/* \
     ${HOME}/.cache
@@ -310,19 +312,6 @@ RUN apt-get update \
     ${HOME}/.ipython \
     ${HOME}/.local
 
-
-# ARG TARGETPLATFORM
-# RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then ARCHITECTURE=amd64; elif [ "$TARGETPLATFORM" = "linux/arm/v7" ]; then ARCHITECTURE=arm; elif [ "$TARGETPLATFORM" = "linux/arm64" ]; then ARCHITECTURE=aarch64; else ARCHITECTURE=amd64; fi \
-#     && curl -sS -L -O --output-dir /tmp/ --create-dirs "https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-${ARCHITECTURE}.tar.gz" \
-#     && tar xzf "/tmp/s6-overlay-${ARCHITECTURE}.tar.gz" -C /
-
-# create USER 
-# RUN groupadd -g 1000 ${NB_USER} \
-#     && useradd --no-log-init -r -m -u 1000 -g 1000 -ms /bin/bash -G sudo ${NB_USER} \
-#     && adduser ${NB_USER} sudo \
-#     && echo "${NB_USER} ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers \
-#     && echo '%sudo ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
-
 ## Switch back to ${NB_USER} to avoid accidental container runs as root
 USER ${NB_USER}
 
@@ -333,12 +322,14 @@ ENV HOME=/home/${NB_USER} \
 WORKDIR ${HOME}
 
 # Install custom theme
-RUN bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmybash/oh-my-bash/master/tools/install.sh)" \
-  && sed -i '/^OSH_THEME/c\OSH_THEME="powerline-icon"'  .bashrc \
-  ## Create user's private bin
-  && mkdir -p ${HOME}/.local/bin \
+RUN mkdir -p ${HOME}/.local/bin \
+  ## Custom R library
+  && mkdir -p ${HOME}/.R \
+  && rm -rf ${HOME}/R \
   ## Create backup of home directory
   && cp -a ${HOME}/. /var/backups/skel
+
+ENV R_LIBS_USER=${HOME}/.R 
 
 ## Copy files as late as possible to avoid cache busting
 COPY --from=files /files /
@@ -347,5 +338,5 @@ COPY --from=files /files/var/backups/skel ${HOME}
 EXPOSE 8888
 
 ## Configure container startup
-ENTRYPOINT ["tini", "-g", "--"]
+ENTRYPOINT ["tini", "-g", "--", "start.sh"]
 CMD ["start-notebook.sh"]

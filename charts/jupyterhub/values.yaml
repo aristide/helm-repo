@@ -423,6 +423,10 @@ singleuser:
     hub.jupyter.org/network-access-hub: "true"
   extraFiles: {}
   extraEnv: {}
+    # <!- install extra python or R packages ->
+    # <!- Warning: depending on the package, the nootbook will take a bit longer to start ->
+    # PYTHON_PACKAGES: "pandas"
+    # R_PACKAGES: "dplyr"
   lifecycleHooks: {}
   initContainers: []
   extraContainers: []
