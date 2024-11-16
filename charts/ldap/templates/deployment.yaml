@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "ldap.fullname" . }}
+  labels:
+    app: {{ include "ldap.name" . | quote }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+    release: {{ .Release.Name | quote }}
+    heritage: {{ .Release.Service | quote }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ template "ldap.name" . }}
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "ldap.name" . | quote }}
+        chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+        release: {{ .Release.Name | quote }}
+        heritage: {{ .Release.Service | quote }}
+    spec:
+      containers:
+        - name: server
+          image: '{{ .Values.repository.image }}{{ if ne .Values.repository.tag "" }}:{{ .Values.repository.tag }}{{ end }}'
+          ports:
+            - name: nossl-port
+              containerPort: 389
+            - name: ssl-port
+              containerPort: 636
+          env:
+          - name: REALM
+            value: '{{ .Values.properties.domain }}'
+          - name: DOMAIN
+            value: '{{ splitList "." .Values.properties.domain  | first }}'
+          - name: ADMINPASS
+            value: '{{ .Values.properties.adminpass }}'
+          - name: INSECURE_LDAP
+            value: 'true'

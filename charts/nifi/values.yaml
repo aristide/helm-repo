@@ -264,10 +264,14 @@ ingress:
   enabled: false
   # className: nginx
   annotations: {}
+    # <- change me and uncomment if running on data4now k8s >
+    # k8s.apisix.apache.org/http-to-https: "true"
   tls: []
   hosts: []
-  path: /
   # If you want to change the default path, see this issue https://github.com/cetic/helm-nifi/issues/22
+  path: /
+  # specifique to data4now kubernetes cluster
+  d4nowk8s: false
 
 # <- enable and change me to increase java memory heap ->
 # Amount of memory to give the NiFi java heap

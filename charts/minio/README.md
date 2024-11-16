@@ -1,5 +1,7 @@
 # Minio Helm Chart
 
+From [Minio Official Helm Chart](https://github.com/minio/minio/tree/master/helm/minio)
+
 ## Configure MinIO Helm repo
 
 ```bash

@@ -3,16 +3,9 @@ Congratulations,
 
 Your application is now deployed. This may take a while to be up and responding.
 
-No SSL port :
-------------
-Internal DNS: {{ .Release.Name }}-active-directory.{{ .Release.Namespace }}.svc.cluster.local:389
-External DNS: {Server Ip Address}:30389
+Internal No SSL : {{ template "ldap.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local:389
+Internal SSL: {{ template "ldap.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local:636
 
-SSL port :
-----------
-Internal DNS: {{ .Release.Name }}-active-directory.{{ .Release.Namespace }}.svc.cluster.local:636
-External DNS: {Server Ip Address}:30636
-
-Default Administrator: CN=Administrator,CN=Users,DC={{ join ",DC=" (splitList "." .Values.domain) }}
-Default password: {{ .Values.adminpass }}
+Default Administrator: CN=Administrator,CN=Users,DC={{ join ",DC=" (splitList "." .Values.properties.domain) }}
+Default password: {{ .Values.properties.adminpass }}
 

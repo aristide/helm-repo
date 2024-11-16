@@ -1,5 +1,7 @@
 # Helm Chart for Apache NiFi
 
+From [Cetic helm chart](https://github.com/cetic/helm-nifi)
+
 ## Configure NiFi Helm repo
 
 ```bash
