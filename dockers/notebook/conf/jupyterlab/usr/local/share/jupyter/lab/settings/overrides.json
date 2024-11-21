@@ -11,6 +11,8 @@
     "fontSize": 13
   },
   "@jupyter-lsp/jupyterlab-lsp:plugin": {
+    "showDocumentation": true,
+    "continuousHinting": true,
     "language_servers": {
       "pylsp": {
         "serverSettings": {

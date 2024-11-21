@@ -312,6 +312,9 @@ RUN apt-get update \
     ${HOME}/.ipython \
     ${HOME}/.local
 
+COPY conf/user-settings /home/${NB_USER}/.jupyter/lab/user-settings
+RUN chown -R ${NB_UID}:${NB_GID} /home/${NB_USER}/.jupyter
+
 ## Switch back to ${NB_USER} to avoid accidental container runs as root
 USER ${NB_USER}
 
@@ -334,6 +337,7 @@ ENV R_LIBS_USER=${HOME}/.R
 ## Copy files as late as possible to avoid cache busting
 COPY --from=files /files /
 COPY --from=files /files/var/backups/skel ${HOME}
+
 
 EXPOSE 8888
 
